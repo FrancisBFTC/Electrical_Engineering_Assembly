@@ -6,7 +6,7 @@ O Reator Industrial é composto por um sistema de válvulas que ligam e desligam
 2. Esperar o 1ª reservatório encher até o nível médio (identificado pelo sensor LM).
 3. Após o sensor LM identificar o produto 1, fechar válvula V1 e abrir válvula V2 com retardo de 1s.
 4. Abrir válvula V2 ao mesmo tempo que liga o motor MOT1, a válvula V2 é fechada após o Produto 2 chegar ao nível Alto (Identificado pelo sensor LH).
-5. Reter o motor MOT1 por 12s fazendo a mistura dos 2 produtos, após isto fechar o MOT1.
+5. Reter o motor MOT1 por 12s fazendo a mistura dos 2 produtos, após isto, feche o MOT1.
 6. Após fechar MOT1, abre a válvula V3 para inserir o vapor até atingir 100Cº (Graus Celsius).
 7. Fecha a válvula V3 quando o sensor TT identifica 100 graus, o sistema entra em repouso por 3s.
 8. Após o tempo de repouso, Abre a válvula V5 para despejar a mistura do 1ª reservatório até o 2ª reservatório.
