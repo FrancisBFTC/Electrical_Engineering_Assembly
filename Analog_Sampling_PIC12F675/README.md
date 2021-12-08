@@ -19,4 +19,4 @@ e as 10 amostras deve ter o período total de T = 200ms. O sistema de amostragem
 13. Finalize o programa.
 
 Observações: No arquivo "Analog_Sampling_INFO.txt" tem todas as explicações referente aos valores das amostras fornecidos pelo pwlin generator do Proteus, os registros que são configurados e como são configurados,
-a explicação de como funciona o processo de decodificação e os cálculos com resultado da área abaixo da onda por meio da fórmula de **aproximação de partição regular** (Seguindo o contexto da _Expansão de Furier_).
+a explicação de como funciona o processo de decodificação e os cálculos com resultado da área abaixo da onda por meio da fórmula de **aproximação de partição regular** (Seguindo o contexto da _Expansão de Furier_). O código do sistema está bem documentado, explicando cada operação. Para executar este projeto veja tutoriais na internet de como instalar o Proteus 8 Professional com chave de licença e o MPLAB IDE v8.92 utilizando o montador MPASM.
