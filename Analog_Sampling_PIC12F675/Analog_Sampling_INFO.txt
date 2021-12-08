@@ -1,4 +1,4 @@
-ConfiguracÃ£o ElÃ©trica do PWLIN ->
+Configuracão Elétrica do PWLIN ->
 
 {V(0.000000)=0.01}
 {V(0.020000)=0.01}
@@ -13,58 +13,58 @@ ConfiguracÃ£o ElÃ©trica do PWLIN ->
 {V(0.200000)=0.89}
 
 
-ConfiguraÃ§Ã£o dos Registradores iniciais ->
+Configuração dos Registradores iniciais ->
 
 
 BANCO DE MEMORIA 1 :
 
 OPTION_REG = H'86' = 1 0 0 0 0 1 1 0 
 
-<7> = 1 -> GPIO pull-ups sÃ£o desabilitados
-<6> = 0 -> InterrupÃ§Ã£o por transiÃ§Ã£o de descida
+<7> = 1 -> GPIO pull-ups são desabilitados
+<6> = 0 -> Interrupção por transição de descida
 <5> = 0 -> Ciclo de clock interno
-<4> = 0 -> Incremente da transiÃ§Ã£o Baixo-para-Alto em GP2
+<4> = 0 -> Incremente da transição Baixo-para-Alto em GP2
 <3> = 0 -> Prescaler atribuido a TIMER0
 <2:0> = 110 -> TMR0 Rate = 1:128
 
 
 TRISIO = H'01' = 0 0 0 0 0 0 0 1
 
-<7:1> = 0000000 -> 7 Pinos como saÃ­da de dados
-<0> = 1 -> 1Âª Pino como entrada de dados
+<7:1> = 0000000 -> 7 Pinos como saída de dados
+<0> = 1 -> 1ª Pino como entrada de dados
 
 
 ANSEL = H'11' = 0 0 0 1 0 0 0 1
 
-<7>   = 0    -> BIT nÃ£o utilizado
+<7>   = 0    -> BIT não utilizado
 <6:4> = 001  -> Fosc/8 = 1us de conversao analogica
-<3:0> = 0001 -> Somente 1Âª pino definido como AnalÃ³gico 
+<3:0> = 0001 -> Somente 1ª pino definido como Analógico 
 
 
 BANCO DE MEMORIA 0 :
 
 INTCON = H'A0' = 1 0 1 0 0 0 0 0
 
-<7> = 1 -> Habilitar InterrupÃ§Ãµes Globais
-<6> = 0 -> Desabilita InterrupÃ§Ãµes perifÃ©ricas
-<5> = 1 -> Habilita InterrupÃ§Ã£o por TIMER0
-<4> = 0 -> Desabilita interrupÃ§Ã£o externa GP2
-<3:0> = 0000 -> Desabilita os outros tipos de interrupÃ§Ãµes
+<7> = 1 -> Habilitar Interrupções Globais
+<6> = 0 -> Desabilita Interrupções periféricas
+<5> = 1 -> Habilita Interrupção por TIMER0
+<4> = 0 -> Desabilita interrupção externa GP2
+<3:0> = 0000 -> Desabilita os outros tipos de interrupções
 
 
 CMCON = H'07' = 0 0 0 0 0 1 1 1
 
-<7:3> = 00000 -> BITs nÃ£o utilizados
+<7:3> = 00000 -> BITs não utilizados
 <2:0> = 111   -> Desabilitar comparadores dos pinos
 
 
 ADCON0 = H'01' = 0 0 0 0 0 0 0 1
 
 <7>   = 0  -> BITs do dado analogico justificado para esquerda
-<6>   = 0  -> TensÃ£o de ReferÃªncia = VDD (5V)
-<5:4> = 00 -> BITs nÃ£o utilizados
+<6>   = 0  -> Tensão de Referência = VDD (5V)
+<5:4> = 00 -> BITs não utilizados
 <3:2> = 00 -> Canal analogico AN0 selecionado (Pino 0 = Canal 0)
-<1>   = 0  -> Indica que nÃ£o estar em progresso de conversÃ£o
+<1>   = 0  -> Indica que não estar em progresso de conversão
 <0>   = 1  -> Habilita Conversor A/D
 
 
@@ -123,7 +123,7 @@ Sendo 0 0 0 0 0 0 0 0   0 0 x x x x x x
       = 182 >> 1 = 91
 
 
-Calculo da Ãrea:
+Calculo da Área:
 
 
 Formula ->
@@ -149,21 +149,21 @@ de 0 a 200ms, r(t) ~= 4,62V | 0V < r(t) < 5V
 0.90V / (20ms / 10) = 0,45V ~= 0,46V
 
 
-ConsideraÃ§Ãµes e explicaÃ§Ãµes:
+Considerações e explicações:
 
 
-A cada 20ms exatos um sinal analÃ³gico Ã© coletado da fonte Pwlin (Pwlin jÃ¡ prÃ©-configurado 
-manualmente) e no perÃ­odo total de 200ms, as 10 categorias (10 sinais) foram coletadas, 
-cada sinal com sua representaÃ§Ã£o digital e decimal no seu respectivo registrador. 
+A cada 20ms exatos um sinal analógico é coletado da fonte Pwlin (Pwlin já pré-configurado 
+manualmente) e no período total de 200ms, as 10 categorias (10 sinais) foram coletadas, 
+cada sinal com sua representação digital e decimal no seu respectivo registrador. 
 Somei todos os sinais e armazenei num outro registrador e depois multipliquei por (20 / 10)
- que deu 462. 462 Ã© a Ã¡rea abaixo da curva de onda, onda que pode variar entre 0 a 5V, 
-ou seja, a Ã¡rea Ã© 4,62V. PorÃ©m se pegÃ¡ssemos 0.90V / 2 = 0.45V que Ã© ~= 0.46V Logo 0,462V 
-(ou 462mV) seria a aproximaÃ§Ã£o regular abaixo da forma de onda de 0.01V atÃ© 0.9V... 
+ que deu 462. 462 é a área abaixo da curva de onda, onda que pode variar entre 0 a 5V, 
+ou seja, a área é 4,62V. Porém se pegássemos 0.90V / 2 = 0.45V que é ~= 0.46V Logo 0,462V 
+(ou 462mV) seria a aproximação regular abaixo da forma de onda de 0.01V até 0.9V... 
 
 Um pouco abaixo da metade de 1.0V, 10 vezes, seria o mesmo que dizer 4,62V
-abaixo de uma onda que varia atÃ© 5V, se falamos da metade de 1.0V, logo:
+abaixo de uma onda que varia até 5V, se falamos da metade de 1.0V, logo:
 
-10 vezes / 2 = 5V, ou seja, 10 vezes de aproximaÃ§Ãµes regulares de 1V.
+10 vezes / 2 = 5V, ou seja, 10 vezes de aproximações regulares de 1V.
 
 r(t) ~= 0,500V | r(t) = 1V
 r(t) ~= 0,462V | r(t) = 0.9V

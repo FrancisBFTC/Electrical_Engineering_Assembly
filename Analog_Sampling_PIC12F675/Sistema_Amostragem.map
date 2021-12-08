@@ -1,0 +1,88 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Sat Nov 20 23:52:03 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x00016e
+.config_2007_SISTEMA_AMOSTRAGEM.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x0000ba      
+                            0x002007    0x002007      
+            185 out of 1030 program addresses used, program memory utilization is 17%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Add_V1   0x000050    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  Add_V10   0x000070    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V2   0x000053    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V3   0x000056    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V4   0x000059    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V5   0x00005c    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V6   0x00005f    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V7   0x000062    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V8   0x000065    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V9   0x00006a    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  AreaAdd   0x000077    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+            CompareSignal   0x000089    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+               Conversion   0x000011    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                 Decoding   0x000014    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  END_INT   0x00009e    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Fill32   0x00000b    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                      MUL   0x000082    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                MulDeltaT   0x000079    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED1   0x000096    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED2   0x000098    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED3   0x00009b    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+              VerifyOrder   0x000026    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                 WaitConv   0x000012    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+               WaitDeltaT   0x0000b4    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                    _LOOP   0x0000b9    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   _Start   0x0000a3    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                _StartINT   0x000004    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                _StartINT   0x000004    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Fill32   0x00000b    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+               Conversion   0x000011    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                 WaitConv   0x000012    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                 Decoding   0x000014    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+              VerifyOrder   0x000026    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V1   0x000050    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V2   0x000053    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V3   0x000056    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V4   0x000059    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V5   0x00005c    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V6   0x00005f    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V7   0x000062    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V8   0x000065    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   Add_V9   0x00006a    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  Add_V10   0x000070    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  AreaAdd   0x000077    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                MulDeltaT   0x000079    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                      MUL   0x000082    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+            CompareSignal   0x000089    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED1   0x000096    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED2   0x000098    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  ON_LED3   0x00009b    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                  END_INT   0x00009e    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                   _Start   0x0000a3    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+               WaitDeltaT   0x0000b4    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+                    _LOOP   0x0000b9    program     static C:\Users\BFTC\Desktop\Trabalhos Clientes\Dirlene Napoleão\Trabalhos Entregues\ProvaN2_Dirlene\Sistema_Amostragem.asm
+
+

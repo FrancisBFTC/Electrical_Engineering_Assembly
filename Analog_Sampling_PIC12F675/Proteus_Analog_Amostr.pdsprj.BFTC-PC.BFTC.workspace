@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<WORKSPACE>
+ <FRAME activewindow="0">
+  <PLACEMENT>2c00000002000000030000000083ffff0083ffffffffffffffffffff9d00000000000000ed040000c6020000</PLACEMENT>
+  <WINDOW type="default" module="ISIS"/>
+ </FRAME>
+ <MODULE name="VSMDEBUG">
+  <PWI>
+   <POPUP w="800" x="215" flags="00000002" y="151" h="200" pid="0" iid="-1">
+    <PROPERTIES>
+     <ITEM name="Message Column Width">542</ITEM>
+     <ITEM name="ShowGrid">No</ITEM>
+     <ITEM name="Source Column Width">100</ITEM>
+     <ITEM name="Time Column Width">120</ITEM>
+     <ITEM name="Version">100</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="350" x="283" flags="00000032" y="176" h="200" pid="1" iid="-1">
+    <PROPERTIES>
+     <ITEM name="Address Column Width">83</ITEM>
+     <ITEM name="AutoResize">No</ITEM>
+     <ITEM name="Gridlines">Yes</ITEM>
+     <ITEM name="Name Column Width">83</ITEM>
+     <ITEM name="ShowAddresses">Yes</ITEM>
+     <ITEM name="ShowPreviousValues">No</ITEM>
+     <ITEM name="ShowTypes">No</ITEM>
+     <ITEM name="ShowWatchPoint">Yes</ITEM>
+     <ITEM name="TriggerMode">0</ITEM>
+     <ITEM name="Value Column Width">83</ITEM>
+     <ITEM name="Version">100</ITEM>
+     <ITEM name="Watch Expression Column Width">83</ITEM>
+     <ITEM name="nItems">0</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="695" x="13" flags="00000000" y="142" h="448" pid="0" iid="3">
+    <PROPERTIES/>
+   </POPUP>
+   <POPUP w="52" x="793" flags="00000008" y="569" h="10" pid="3" iid="1">
+    <PROPERTIES/>
+   </POPUP>
+   <POPUP w="8" x="930" flags="0000000a" y="70" h="16" pid="4" iid="1">
+    <PROPERTIES>
+     <ITEM name="DataType">2</ITEM>
+     <ITEM name="DispChars">Yes</ITEM>
+     <ITEM name="DispFormat">4</ITEM>
+     <ITEM name="ShowChanges">Yes</ITEM>
+     <ITEM name="ShowToolTips">Yes</ITEM>
+     <ITEM name="TopLineAddress">00000050</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="8" x="281" flags="0000000a" y="242" h="16" pid="5" iid="1">
+    <PROPERTIES>
+     <ITEM name="DataType">2</ITEM>
+     <ITEM name="DispChars">Yes</ITEM>
+     <ITEM name="DispFormat">2</ITEM>
+     <ITEM name="ShowChanges">Yes</ITEM>
+     <ITEM name="ShowToolTips">Yes</ITEM>
+     <ITEM name="TopLineAddress">00000000</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="16" x="301" flags="0000000a" y="262" h="32" pid="6" iid="1">
+    <PROPERTIES>
+     <ITEM name="DataType">2</ITEM>
+     <ITEM name="DispChars">Yes</ITEM>
+     <ITEM name="DispFormat">2</ITEM>
+     <ITEM name="ShowChanges">Yes</ITEM>
+     <ITEM name="ShowToolTips">Yes</ITEM>
+     <ITEM name="TopLineAddress">00000000</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="20" x="321" flags="00000008" y="282" h="8" pid="7" iid="1">
+    <PROPERTIES/>
+   </POPUP>
+   <POPUP w="8" x="341" flags="00000002" y="302" h="8" pid="8" iid="1">
+    <PROPERTIES>
+     <ITEM name="DataType">2</ITEM>
+     <ITEM name="DispChars">Yes</ITEM>
+     <ITEM name="DispFormat">2</ITEM>
+     <ITEM name="ShowChanges">Yes</ITEM>
+     <ITEM name="ShowToolTips">Yes</ITEM>
+     <ITEM name="TopLineAddress">00000000</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="657" x="42" flags="0000802b" y="140" h="357" pid="1" iid="1">
+    <PROPERTIES>
+     <ITEM name="Breakpoint 0">"",0009,0000,C692,DCE1,1
+</ITEM>
+     <ITEM name="Breakpoint 1">"",0004,0000,ADA9,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 10">"",001E,0000,D560,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 2">"",0005,0000,61CC,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 3">"",000F,0000,81FE,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 4">"",0010,0000,05DF,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 5">"",0010,0000,AD6A,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 6">"",0012,0000,246C,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 7">"",0016,0000,AA0B,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 8">"",0019,0000,B6A4,4E79,1
+</ITEM>
+     <ITEM name="Breakpoint 9">"",001B,0000,D560,4E79,1
+</ITEM>
+     <ITEM name="CaseSensitive">No</ITEM>
+     <ITEM name="DISPADDRS">No</ITEM>
+     <ITEM name="DISPLNUMS">Yes</ITEM>
+     <ITEM name="DISPOPCODES">No</ITEM>
+     <ITEM name="FIXUPBPTS">Yes</ITEM>
+     <ITEM name="GotoAddr0">B</ITEM>
+     <ITEM name="GotoAddr1">A</ITEM>
+     <ITEM name="GotoLine0"></ITEM>
+     <ITEM name="WordsOnly">No</ITEM>
+     <ITEM name="nBreakpoints">1</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="315" x="992" flags="0000000b" y="282" h="328" pid="2" iid="1">
+    <PROPERTIES>
+     <ITEM name="Address Column Width">54</ITEM>
+     <ITEM name="AutoResize">No</ITEM>
+     <ITEM name="Gridlines">Yes</ITEM>
+     <ITEM name="Name Column Width">94</ITEM>
+     <ITEM name="ShowAddresses">Yes</ITEM>
+     <ITEM name="ShowGlobals">Yes</ITEM>
+     <ITEM name="ShowPreviousValues">No</ITEM>
+     <ITEM name="ShowTypes">No</ITEM>
+     <ITEM name="ShowWatchPoint">No</ITEM>
+     <ITEM name="TriggerMode">0</ITEM>
+     <ITEM name="Value Column Width">94</ITEM>
+     <ITEM name="Version">100</ITEM>
+     <ITEM name="nItems">0</ITEM>
+    </PROPERTIES>
+   </POPUP>
+   <POPUP w="290" x="701" flags="00000001" y="135" h="184" pid="0" iid="9">
+    <PROPERTIES/>
+   </POPUP>
+  </PWI>
+ </MODULE>
+</WORKSPACE>
