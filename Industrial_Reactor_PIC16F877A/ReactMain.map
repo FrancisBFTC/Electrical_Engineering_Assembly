@@ -1,0 +1,118 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Tue Dec 07 04:40:37 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000774
+ .config_2007_REACTMAIN.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x0003bd      
+                            0x002007    0x002007      
+            956 out of 8454 program addresses used, program memory utilization is 11%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                  BOMBOFF   0x000331    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  COUNTER   0x0001b4    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  COUNTP3   0x000329    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                 DefTimer   0x000074    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                DefTimer1   0x000078    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+               Delay500ms   0x000083    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                    ENDLH   0x000177    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLH0   0x00016f    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDLL   0x0000d1    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLL0   0x0000c9    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDLM   0x000100    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLM0   0x0000f8    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                     ENDR   0x00023b    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDR0   0x000234    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDRES   0x0002c9    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDTT   0x00020f    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDTT0   0x000209    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV1   0x000139    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDV10   0x000131    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV4   0x0002d0    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV5   0x00028e    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  END_INT   0x00007c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                     IEND   0x00007c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                INIT_CONF   0x000006    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactconf.inc
+               IncCelsius   0x00006c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                   IncPsi   0x000070    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                  LHSTART   0x000260    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  LLSTART   0x00027a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  LMSTART   0x00026d    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  MOT1OFF   0x0001bb    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   R_MAIN   0x000093    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+             RestoreDatas   0x000050    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+               STARTTIMER   0x000288    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  STARTV5   0x000259    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+              STOP_BUTTON   0x000027    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                SaveDatas   0x00002a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                TIMER0INT   0x000062    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                    Time1   0x000085    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                    Time2   0x000087    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 VOID_INT   0x000020    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 WaitStop   0x00004b    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 WaitTime   0x00004a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INIT_CONF   0x000006    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactconf.inc
+                 VOID_INT   0x000020    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+              STOP_BUTTON   0x000027    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                SaveDatas   0x00002a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 WaitTime   0x00004a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 WaitStop   0x00004b    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+             RestoreDatas   0x000050    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                TIMER0INT   0x000062    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+               IncCelsius   0x00006c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                   IncPsi   0x000070    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                 DefTimer   0x000074    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                DefTimer1   0x000078    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                     IEND   0x00007c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                  END_INT   0x00007c    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+               Delay500ms   0x000083    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                    Time1   0x000085    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                    Time2   0x000087    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\reactintr.inc
+                   R_MAIN   0x000093    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLL0   0x0000c9    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDLL   0x0000d1    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLM0   0x0000f8    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDLM   0x000100    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDV10   0x000131    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV1   0x000139    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDLH0   0x00016f    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDLH   0x000177    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  COUNTER   0x0001b4    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  MOT1OFF   0x0001bb    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDTT0   0x000209    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDTT   0x00020f    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDR0   0x000234    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                     ENDR   0x00023b    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  STARTV5   0x000259    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  LHSTART   0x000260    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  LMSTART   0x00026d    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  LLSTART   0x00027a    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+               STARTTIMER   0x000288    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV5   0x00028e    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                   ENDRES   0x0002c9    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                    ENDV4   0x0002d0    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  COUNTP3   0x000329    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+                  BOMBOFF   0x000331    program     static C:\Users\BFTC\Desktop\TrabalhoListaN3\ReactMain.asm
+
+
