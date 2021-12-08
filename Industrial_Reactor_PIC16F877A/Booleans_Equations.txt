@@ -1,0 +1,27 @@
+--------------------------------------------------------------------------------------
+------ EQUAÇÕES DO REATOR INDUSTRIAL -------------------------------------------------
+
+ST = START+ST
+V1 = (START+V1).LH´.LM´
+V2 = (V2+LM).T1´.LL.LH´.V1´.V5´ | T1´->V5
+LL = (LL+V1).P1L´+LL | P1L´->LL
+LM = (LM+V1).P1M´.LL+LM | P1M´->LM
+LH = (LH+V2).P2H´.LM+LH | P2H´->LH
+MOT1 = MOT1+V2
+MOT1 = MOT1.T12+V2 | T12->MOT1
+V3 = (TT+MOT1´).LL.LM.LH.V2´.C100
+TT = (TT+V3).C100´.V5´ | C100´->TT
+V5 = (V5+TT).RT´.LL | RT´->TT´->V5
+LH = LH´->LHON´<->(V5.LH.P2H´) | LH=LH.LHON
+LM = LM´->LMON´<->(V5.LM.P1M´) | LM=LM.LMON
+LL = LL´->LLON´<->(V5.LL.P1L´) | LL=LL.LLON
+V4 = ((V4+LL´).RESC+P120) | P120->V4
+TP = ST.V1´.LL´.V5´.V4´.P120´
+BOMB = (BOMB+TP)
+BOMB = BOMB.P3 | TP->P3->BOMB
+V6 = ST´.EOP+V6
+ST = TP.BOMB+V5+V4+V3+V2+MOT1+TT
+FN = FN+ST´.V6+FN
+RESETS = RESETS.ST´
+
+--------------------------------------------------------------------------------------
