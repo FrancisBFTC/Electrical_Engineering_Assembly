@@ -2,8 +2,7 @@
 
 Este sistema é responsável por classificar 10 amostras de sinais analógicos vindos da fonte **pwlin generator** no Proteus. Cada sinal deve ocorrer no tempo de 20ms de 0.01V
 até 0.89V. Sendo a sequência _r(0ms) = 0.01V , r(20ms) = 0.01V , r(40ms) = r(0ms) + r(20ms), r(60ms) = r(20ms) + r(40ms), . . . , r(T) = 0.89V_. O sinal analógico é representado pelo sinal r(t),
-e as 10 amostras deve ter o período total de T = 200ms. O sistema de amostragem no final também faz o calculo da  ́area abaixo da forma de onda por meio de uma aproximação de partição regular no 
-dominio do tempo t. As seguintes operações são feitas neste projeto:
+e as 10 amostras deve ter o período total de T = 200ms. O sistema de amostragem no final também faz o cálculo da área abaixo da forma de onda por meio de uma aproximação de partição regular no dominio do tempo t. As seguintes operações são feitas neste projeto:
 
 1. Configura registros iniciais e o temporizador.
 2. Inicia o MAIN com um LOOP infinito.
