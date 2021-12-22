@@ -1,0 +1,7 @@
+main
+	__CC2DW
+interrupt
+	ADC_Read
+		Delay_22us
+	Serial_Send
+		Serial_Wait
