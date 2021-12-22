@@ -1,0 +1,11 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP16F84A -DL -O11111104 -fo4 -N"C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula12\Proj_LEDs_4BIT.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\" -SP"C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula12\" "Proj_LEDs_4BIT.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_MemManager.mcl" "__Lib_Conversions.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Trigonometry.mcl" "__Lib_Button.mcl" "__Lib_Keypad4x4.mcl" "__Lib_Manchester.mcl" "__Lib_OneWire.mcl" "__Lib_PS2.mcl" "__Lib_Sound.mcl" "__Lib_SoftI2C.mcl" "__Lib_SoftSPI.mcl" "__Lib_SoftUART.mcl" "__Lib_EEPROM.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl" "__Lib_S1D13700.mcl"	 
+hint: 0	1139	Available RAM: 52 [bytes], Available ROM: 1024 [bytes]	 
+diagnostics: 0	122	Compilation Started	Proj_LEDs_4BIT.c
+diagnostics: 57	123	Compiled Successfully	Proj_LEDs_4BIT.c
+diagnostics: 0	127	All files Compiled in 235 ms	 
+hint: 0	1144	Used RAM (bytes): 6 (12%)  Free RAM (bytes): 46 (88%)	Used RAM (bytes): 6 (12%)  Free RAM (bytes): 46 (88%)
+hint: 0	1144	Used ROM (program words): 57 (6%)  Free ROM (program words): 967 (94%)	Used ROM (program words): 57 (6%)  Free ROM (program words): 967 (94%)
+diagnostics: 0	125	Project Linked Successfully	Proj_LEDs_4BIT.mcppi
+diagnostics: 0	128	Linked in 218 ms	 
+diagnostics: 0	129	Project 'Proj_LEDs_4BIT.mcppi' completed: 656 ms	 
+diagnostics: 0	103	Finished successfully: 28 nov 2021, 22:25:11	Proj_LEDs_4BIT.mcppi
