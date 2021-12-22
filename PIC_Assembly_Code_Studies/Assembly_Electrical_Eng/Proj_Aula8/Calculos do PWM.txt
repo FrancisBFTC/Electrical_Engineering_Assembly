@@ -1,0 +1,28 @@
+PWM Period = (PR2 + 1) x Cm x TRM2 Prescale
+
+PWM duty cycle = (CCPR1L:CCP1CON<5:4>) x Tosc x TRM2 Prescale
+
+
+PR2 = 255 (FF)
+Cm  = 1us
+TRM2 = 16 (1:16)
+
+PWM Period = 256 x 1us x 16 = 4096us -> 4,096ms -> 4.1ms
+
+Ptrm0 = 256
+
+TRM0 = (TRM0 - D) x Cm x Ptrm0 
+TRM0 = 65536ms
+
+
+Simulation is not running in real time due to excessive CPU load.
+
+
+
+0 0 0 0 0 0 1 1   0 0
+
+CCPR1L = H'03'
+CCP1CON = H'00'
+
+
+Professor diz: H'0C' em CCP1CON

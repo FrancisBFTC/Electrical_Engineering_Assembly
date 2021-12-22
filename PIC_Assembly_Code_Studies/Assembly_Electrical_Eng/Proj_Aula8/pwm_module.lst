@@ -1,0 +1,430 @@
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; Aula de Módulo PWM
+                      00002 ;
+                      00003 ;
+                      00004 
+Warning[205]: Found directive in column 1. (list)
+                      00005 list p = 16f628A
+                      00006  
+                      00007  #include <p16f628a.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00385         LIST
+                      00008 
+Warning[205]: Found directive in column 1. (__config)
+2007   3F01           00009 __config _XT_OSC & _WDT_OFF & _PWRTE_ON & _BOREN_OFF & _LVP_OFF & _CPD_OFF & _CP_OFF & _MCLRE_OFF
+                      00010 
+                      00011 #define banco1 bsf STATUS,RP0
+                      00012 #define banco0 bcf STATUS,RP0
+                      00013 
+                      00014 #define BOT    PORTB,RB0
+                      00015 
+                      00016 ; Registros de propósitos gerais
+Warning[205]: Found directive in column 1. (cblock)
+                      00017 cblock          H'20'
+  00000020            00018         W_TEMP                  ;0x20
+  00000021            00019         STATUS_TEMP             ;0x21
+  00000022            00020         REG1    
+Warning[205]: Found directive in column 1. (ENDC)
+                      00021 endc
+                      00022 
+                      00023 ; Vetor de RESET
+0000                  00024                 org     0000h
+0000   2820           00025                 goto    inicio
+                      00026 
+                      00027 ; Vetor de INTERRUPÇÃO
+0004                  00028                 org     0004h
+                      00029 
+                      00030 ; Salvar Contexto (STATUS,W)
+                      00031 ; no banco 0
+0004   00A0           00032         movwf   W_TEMP    ; P. EX.: W = 0010 1011 então W_TEMP = 0010 1011
+0005   0E03           00033         swapf   STATUS,W  ; P. EX.: STATUS = 0001 0000 -> swap -> STATUS = 0000 0001
+                      00034                                           ; Não altera nenhum BIT do STATUS (movf & movwf altera)
+0006   1283           00035         banco0
+0007   00A1           00036         movwf   STATUS_TEMP  ; P. EX.: STATUS_TEMP = 0000 0001
+                      00037 ; ---- ISR -------------------------
+                      00038 
+                      00039 ; tratamento da interrupção do TMR0
+                      00040 
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0008   1D0B           00041         btfss   INTCON,T0IF                     ; Ouve Alguma Interrupção? (BIT 1 Setado?)
+0009   281B           00042         goto    sair                            ; Não! Então saia da ISR
+000A   110B           00043         bcf     INTCON,T0IF                     ; Sim! Então limpe o BIT 1 via software (Como indicado p
+                            elo fabricante)
+000B   0181           00044         clrf    TMR0                            ; Limpe o TIMER0 e inicie a contagem
+000C   1C06           00045         btfss   BOT                                     ; Botão foi pressionado?
+000D   281B           00046         goto    sair                            ; Não! Então saia
+000E   280F           00047         goto    incrementar                     ; Sim, Então incremente PWM
+                      00048 
+000F                  00049 incrementar:
+000F   30FF           00050         movlw   D'255'                          ; W = 255
+0010   0615           00051         xorwf   CCPR1L,W                        ; Compara se CCPR1L é igual a W
+0011   1D03           00052         btfss   STATUS,Z                        ; Testa BIT Z de STATUS
+0012   2814           00053         goto    Diff                            ; Z = 0? XOR não deu 0, então comparação deu Diferente, 
+                            incremente CCPR1L                                                               
+0013   2816           00054         goto    Equal                           ; Z = 1? XOR deu 0, então comparação deu Igual
+                      00055         
+0014                  00056 Diff:
+0014   0A95           00057         incf    CCPR1L,F
+0015   281B           00058         goto    sair
+                      00059 
+                      00060 ; Aumenta o Duty Cicle inicial a cada vez que entra aqui
+0016                  00061 Equal:
+0016   3005           00062         movlw   D'5'
+0017   07A2           00063         addwf   REG1,F
+0018   0822           00064         movf    REG1,W
+0019   0095           00065         movwf   CCPR1L
+001A   281B           00066         goto    sair
+                      00067         
+001B                  00068 sair:
+                      00069 ; -----------------------------------
+001B   0E21           00070         swapf   STATUS_TEMP,W  ; P. EX.: STATUS_TEMP = 0001 0000 --> W
+001C   0083           00071         movwf   STATUS
+001D   0EA0           00072         swapf   W_TEMP,F       ; P. EX.: W_TEMP = 1011 0010
+001E   0E20           00073         swapf   W_TEMP,W       ; W = 0010 1011
+                      00074                                                    ; Substitui a instrução movf W_TEMP, que modifica o B
+                            IT Z do STATUS
+                      00075         
+001F   0009           00076         retfie
+                      00077 
+                      00078 
+                      00079 
+                      00080 
+                      00081 ; Fim da Interrupção
+                      00082 
+0020                  00083 inicio:
+0020   1683           00084         banco1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0021   1406           00085         bsf     TRISB,RB0
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0022   1186           00086         bcf     TRISB,RB3
+0023   3087           00087         movlw   H'87'             ; W = B'10000111' -> 87h
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0024   0081           00088         movwf   OPTION_REG    ; BIT <7> de OPTION_REG é 1, logo desabilita pull-up interno
+                      00089                                                   ; BIT <0:2>, sendo 111 -> TRM0 Prescaler = 256
+                      00090                                                   ; Quanto menor os 3 bits, mais rápido é a contagem do 
+                            PWM
+0025   30A0           00091         movlw   H'A0'             ; W = D'255'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0026   0092           00092         movwf   PR2                       ; Garantir um período de 4.1ms pra o PWM na fórmula
+0027   1283           00093         banco0
+0028   30E0           00094         movlw   H'E0'             ; W = B'11100000'
+0029   008B           00095         movwf   INTCON            ; <7> = Habilita interrupções globais, <6> = Habilita interrupções per
+                            iférica
+                      00096                                                   ; <5> = Habilita Interrupção por Overflow TIMER0
+002A   3006           00097         movlw   H'06'             ; W = B'00000110'
+002B   0092           00098         movwf   T2CON             ; BIT <1> setado = 1:16 prescaler, BIT <2> setado habilita TIMER2
+002C   300C           00099         movlw   H'0C'             ; CCPR1L:CCP1CON = BIT<7:0>:BIT<5:4>
+002D   0097           00100         movwf   CCP1CON 
+002E   3000           00101         movlw   H'00'
+002F   0095           00102         movwf   CCPR1L
+                      00103         
+0030   01A2           00104         clrf    REG1
+0031   0181           00105         clrf    TMR0              ; Limpe o TIMER0 e inicie a contagem
+                      00106         
+0032   2832           00107         goto    $
+                      00108         
+0033                  00109 loop:
+                      00110         
+Warning[205]: Found directive in column 1. (end)
+                      00111 end
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BOT                               PORTB,RB0
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+Diff                              00000014
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+Equal                             00000016
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+REG1                              00000022
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+STATUS                            00000003
+STATUS_TEMP                       00000021
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000020
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+MPASM  5.51                    PWM_MODULE.ASM   11-11-2021  11:43:12         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+banco0                            bcf STATUS,RP0
+banco1                            bsf STATUS,RP0
+incrementar                       0000000F
+inicio                            00000020
+loop                              00000033
+sair                              0000001B
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXX-------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    48
+Program Memory Words Free:  2000
+
+
+Errors   :     0
+Warnings :     5 reported,     0 suppressed
+Messages :     4 reported,     0 suppressed
+
+
