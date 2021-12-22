@@ -1,0 +1,50 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Mon Nov 01 03:39:29 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000064
+  .config_2007_HSTESTE2.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000035      
+                            0x002007    0x002007      
+            52 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+           InicioPrograma   0x000005    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+                   Multi1   0x000017    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+                   Multi2   0x000023    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          RealizaProduto1   0x000013    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          RealizaProduto2   0x00001f    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          SubtraiProdutos   0x00002b    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+             ValorLogico0   0x00002e    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+             ValorLogico1   0x000032    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+           InicioPrograma   0x000005    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          RealizaProduto1   0x000013    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+                   Multi1   0x000017    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          RealizaProduto2   0x00001f    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+                   Multi2   0x000023    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+          SubtraiProdutos   0x00002b    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+             ValorLogico0   0x00002e    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+             ValorLogico1   0x000032    program     static C:\Users\BFTC\Desktop\ListaExerciciosN2\ProjetoQ1\Funcao2\HsTeste2.asm
+
+
