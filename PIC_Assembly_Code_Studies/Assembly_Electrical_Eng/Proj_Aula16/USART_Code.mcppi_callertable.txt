@@ -1,0 +1,9 @@
+main
+	__CC2DW
+		____DoICP
+	write
+		strlen
+		Wait_Trans
+interrupt
+	print
+		Wait_Trans
