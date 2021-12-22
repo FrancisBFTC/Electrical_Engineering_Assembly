@@ -1,0 +1,7 @@
+Vo = Ib x ((X1 + Y1) / Y1)
+Ib = 1.4V
+X1 = 6k
+Y1 = 1k
+
+Vo = 1.4V x ((6K + 1k) / 1k)
+Vo = 9.8V
