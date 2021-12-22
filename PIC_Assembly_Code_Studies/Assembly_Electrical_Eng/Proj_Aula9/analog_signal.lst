@@ -1,0 +1,375 @@
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (list)
+                      00001 list p=12F675
+                      00002 
+                      00003 #include <p12F675.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC12F675 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00366         LIST
+                      00004 
+                      00005 #define         banco0  bcf STATUS,RP0
+                      00006 #define         banco1  bsf STATUS,RP0
+                      00007 
+                      00008 #define         signal  GPIO,GP0        ; Entrada GP0 do sinal analógico
+                      00009 #define         led     GPIO,GP5        ; Saída GP5 do led e para osciloscópio
+                      00010 
+Warning[205]: Found directive in column 1. (__config)
+2007   3F04           00011 __config _INTRC_OSC_NOCLKOUT & _WDT_OFF & _PWRTE_ON & _BOREN_OFF & _CPD_OFF & _CP_ON & _MCLRE_OFF
+                      00012 
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00013 CBLOCK          H'20'
+                      00014         
+  00000020            00015         FRONT           ; Fronteira
+  00000021            00016         CONT0
+                      00017 
+Warning[205]: Found directive in column 1. (ENDC)
+                      00018 ENDC
+                      00019 
+0000                  00020         org     H'0000'
+0000   2801           00021         goto    inicio
+                      00022 
+0001                  00023 inicio:
+0001   1683           00024         banco1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0002   1285           00025         bcf     TRISIO,GP5
+0003   3011           00026         movlw   H'11'           ; W = B'00010001'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   009F           00027         movwf   ANSEL           ; Tempo de conversão em 2us para 4MHz (BIT<6:4>) &
+                      00028                                                 ; Apenas AN0 configurado como Analógico (BIT<0>)
+0005   1283           00029         banco0
+                      00030 
+0006   3001           00031         movlw   H'01'           ; W = B'00000001'
+0007   009F           00032         movwf   ADCON0          ; Conversão analógica se inicia (BIT<0>), Conversão Completa (BIT<1>),
+                      00033                                                 ; Canal 0 (BIT<3:2>), Não-implementado (BIT<5:4>),
+                      00034                                                 ; Tensão de referência = VDD (BIT<6>) & justificado para
+                             Esquerda, em ADRESH (BIT<7>)
+0008   3007           00035         movlw   H'07'           ; W = B'00000111'
+0009   0099           00036         movwf   CMCON           ; Desabilita os comparadores dos pinos
+                      00037         
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00038 
+                      00039 ; Definir valor da fronteira entre região inferior e superior
+                      00040 
+                      00041 ;    ADRESH                       ADRESL
+                      00042 ; 0 0 0 0 0 0 0 0     0 0 x x x x x x
+                      00043 ; O valor da fronteira = D'128' ou B'10000000'
+                      00044 
+000A   3080           00045         movlw   D'128'          ; Metade de 256 (Valor máximo de 5V)
+000B   00A0           00046         movwf   FRONT
+                      00047 
+000C                  00048 Converter:
+000C   3064           00049         movlw   D'100'          ; Contador de tempo
+000D   00A1           00050         movwf   CONT0
+                      00051 
+000E   149F           00052         bsf     ADCON0,GO_DONE          ; Módulo ADC ocupado
+                      00053 
+000F                  00054 Aguarde2us:
+000F   189F           00055         btfsc   ADCON0,GO_DONE      ; O dado está pronto?
+0010   280F           00056         goto    Aguarde2us                      ; Não, estão aguarde
+                      00057                                                                 
+0011   081E           00058         movf    ADRESH,W                    ; Sim,Então movimenta o sinal analógico para W
+0012   0520           00059         andwf   FRONT,W                         ; Faça um AND entre a Fronteira e o sinal analógico
+                      00060 
+0013   1903           00061         btfsc   STATUS,Z                        ; Verifica se a operação AND deu zero
+0014   2817           00062         goto    Inferior                        ; Não deu (Esta abaixo da fronteira do sinal) então vai 
+                            para Inferior
+0015   1685           00063         bsf     led                                     ; Sim, deu! (Esta acima da fronteira do sinal),E
+                            ntão liga o LED
+0016   2818           00064         goto    Delay                       ; Espera um tempo e procura pelo próximo sinal
+                      00065 
+                      00066 
+0017                  00067 Inferior:
+0017   1285           00068         bcf     led                             ; Desligue o LED
+                      00069 
+0018                  00070 Delay:
+                      00071         
+0018   201C           00072         call    Time300us                       ; Delay de 100 x 3 Ciclos = 300us
+0019   201C           00073         call    Time300us
+001A   201C           00074         call    Time300us
+                      00075 
+001B   280C           00076         goto    Converter                       ; Espera pelo próximo sinal
+                      00077 
+                      00078 
+                      00079 
+001C                  00080 Time300us:
+001C   0BA1           00081         decfsz  CONT0,F
+001D   281C           00082         goto    Time300us
+001E   0008           00083         return  
+                      00084 
+                      00085 
+                      00086         
+                      00087 
+                      00088 
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (end)
+                      00089 end
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+Aguarde2us                        0000000F
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+CONT0                             00000021
+COUT                              00000006
+Converter                         0000000C
+DC                                00000001
+Delay                             00000018
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FRONT                             00000020
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+GP0                               00000000
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+Inferior                          00000017
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCAL                            00000090
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+PS1                               00000001
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS2                               00000002
+PSA                               00000003
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+TRISIO0                           00000000
+TRISIO1                           00000001
+TRISIO2                           00000002
+TRISIO3                           00000003
+TRISIO4                           00000004
+TRISIO5                           00000005
+Time300us                         0000001C
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+W                                 00000000
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+__DEBUG                           1
+banco0                            bcf STATUS,RP0
+banco1                            bsf STATUS,RP0
+inicio                            00000001
+led                               GPIO,GP5
+signal                            GPIO,GP0
+MPASM  5.51                 ANALOG_SIGNAL.ASM   11-15-2021  16:27:37         PAGE  8
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXX- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    31
+Program Memory Words Free:   993
+
+
+Errors   :     0
+Warnings :     5 reported,     0 suppressed
+Messages :     2 reported,     0 suppressed
+
+

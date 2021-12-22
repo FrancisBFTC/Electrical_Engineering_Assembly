@@ -1,0 +1,44 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Mon Nov 15 16:27:39 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x00003e
+.config_2007_ANALOG_SIGNAL.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00001e      
+                            0x002007    0x002007      
+            32 out of 1158 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+               Aguarde2us   0x00000f    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                Converter   0x00000c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                    Delay   0x000018    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                 Inferior   0x000017    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                Time300us   0x00001c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                   inicio   0x000001    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   inicio   0x000001    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                Converter   0x00000c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+               Aguarde2us   0x00000f    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                 Inferior   0x000017    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                    Delay   0x000018    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+                Time300us   0x00001c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula9\analog_signal.asm
+
+
