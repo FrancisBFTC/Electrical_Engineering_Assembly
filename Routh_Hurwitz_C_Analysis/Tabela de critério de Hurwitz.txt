@@ -1,0 +1,131 @@
+E(s)                  N(s)                 S(s)
+----->_____________________________________----->
+      a5s5 + a4s4 + a3s3 + a2s2 + a1s1 + a0
+
+
+
+s5 |	 a5	    a3	      a1 
+   |
+s4 |	 a4	    a2	      a0
+___|_________________________________
+   |
+s3 | _|a5 a3|   _|a5 a1|   _|a5  0|
+   |  |a4 a2|    |a4 a0|    |a4  0|
+   |  _______=b1 _______=b2 _______=0   
+   |	 a4	    a4         a4
+   |
+s2 | _|a4 a2|   _|a4 a0|   _|a4  0|
+   |  |b1 b2|    |b1  0|    |b1  0|
+   |  _______=c1 _______=c2 _______=0   
+   |	 b1	    b1         b1
+   |
+s1 | _|b1 b2|   _|b1  0|   _|b1  0|
+   |  |c1 c2|    |c1  0|    |c1  0|
+   |  _______=d1 _______=0  _______=0   
+   |	 c1	    c1         c1
+   |
+s0 | _|c1 c2|   _|c1  0|   _|c1  0|
+   |  |d1  0|    |d1  0|    |d1  0|
+   |  _______=e1 _______=0  _______=0   
+   |	 d1	    d1         d1
+   |
+
+
+
+
+s3 |	 a3	    a1
+   |
+s2 |	 a2	    a0
+___|_______________________
+   |
+s1 | _|a3 a1|   _|a3  0|
+   |  |a2 a0|    |a2  0|
+   |  _______=b1 _______=b2 
+   |	 a2	    a2 
+   |
+s0 | _|c1 c2|   _|c1  0|
+   |  |d1  0|    |d1  0|
+   |  _______=e1 _______=0  
+   |	 d1	    d1
+   |
+
+Determinar o Valor de Kc:
+Critério: Kc deve ser maior que 7,5 pro sistema 
+ser "estável".
+
+      Kc
+_______________
+s(s - 1)(s + 6)
+
+D(s) = s3 + 5s2 + (Kc - 6)s + Kc
+
+
+
+s3:  1                kc-6
+s2:  5                kc
+s1:  5(Kc-6)-1Kc/5    0
+s0:  Kc
+
+
+=> 5KC - 30 - Kc > 0
+=> 4Kc - 30 > 0
+=> Kc > 30/4 = 7,5
+
+Logo para Kc > 7,5 o sistema terá estabilidade absoluta
+
+Exemplo 1: Kc = 7,5 logo substituimos a tabela anterior:
+
+s3:  1                 1,5
+s2:  5                 7,5
+s1:  5(Kc-6)-1Kc/5     0
+s0:  Kc
+
+5 x 1,5 = 7,5 - (1 x 7,5) = 0
+0 x 7,5 = 0 - (5 x 0) = 0
+Logo em s0, Kc = 0
+
+O sistema é marginalmente estável, porém Kc = 0, então a 
+amplitude dos sinais não diminuiría a cada tempo (Permaneceria com a mesma oscilação), 
+ou seja, seria 0 diminuições (uma estabilidade marginal se as raízes dos coeficientes
+forem positivos). Se for < 0 (um número negativo), então a amplitude do sinal aumentaria 
+a cada tempo, sendo um sistema instável, também com instabilidade marginal.
+Porém se Kc > 7,5... Logo no final Kc daria maior que 7,5 ... Então as variações de 
+amplitudes dos sinais diminuíria até uma estabilidade absoluta.
+Outro exemplo pra demonstrar isso, sendo Kc > 7,5:
+
+
+s3:  1                1,6
+s2:  5                7,6
+s1:  5(Kc-6)-1Kc/5    0
+s0:  Kc
+
+5 x 1,6 = 8 - 7,6 = 0,4 / 5 = 0,08
+0,08 x 7,6 = 0,608 - 0 = 0,608 / 0,08 = 7,6
+Logo em s0, Kc = 7,6
+
+Kc recebeu na entrada 7,6 e resultou na saída 7,6... O número não se alterou.
+Então as variações de amplitude no tempo diminuiria até o valor ideal, ou seja,
+O valor ideal corresponde a mesma entrada do Kc, Então sistema linear contínuo no tempo
+Não deve haver alterações na amplitude e nem crescimento exponencial da amplitude do sinal.
+
+Neste último exemplo, A cada entrada maior que 7,5 passada pelo controlador Kc, após
+ser efetuado as operações do critério de estabilidade, a saída também deve ser maior que
+7,5. Logo:
+
+                    s+1
+E(s) -> Kc -> _______________ = -> S(s)
+     ^        s(s - 1)(s + 6)    |
+     |___________________________|
+
+		ou
+
+                    7,6
+E(7,6) -> Kc -> ___________ = 1 -> S(8,6)
+       ^            7,6         |
+       |________________________|
+
+
+
+
+https://eletricacomscilab.blogspot.com/2018/04/criterio-de-estabilidade-de-routh.html
+https://www.professores.uff.br/ninoska/wp-content/uploads/sites/57/2017/10/Control_Aula19_casos-especial-Estabilidade_1sem2017.pdf
