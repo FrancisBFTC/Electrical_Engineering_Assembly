@@ -1,0 +1,11 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP16F628A -DL -O11111104 -fo8 -N"C:\Users\BFTC\Desktop\ProvaN3_Dirlene\C_Temp_Sensor\E2_PIC16F628A\E2_Serial_Terminal.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\" -SP"C:\Users\BFTC\Desktop\ProvaN3_Dirlene\C_Temp_Sensor\E2_PIC16F628A\" -SP"C:\Users\BFTC\Desktop\ProvaN3_Dirlene\C_Temp_Sensor\" -IP"C:\Users\BFTC\Desktop\ProvaN3_Dirlene\C_Temp_Sensor\E2_PIC16F628A\" -IP"C:\Users\BFTC\Desktop\ProvaN3_Dirlene\C_Temp_Sensor\" "E2_Serial_Terminal.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_MemManager.mcl" "__Lib_Conversions.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Trigonometry.mcl" "__Lib_Button.mcl" "__Lib_Keypad4x4.mcl" "__Lib_Manchester.mcl" "__Lib_OneWire.mcl" "__Lib_PS2.mcl" "__Lib_Sound.mcl" "__Lib_SoftI2C.mcl" "__Lib_SoftSPI.mcl" "__Lib_SoftUART.mcl" "__Lib_EEPROM.mcl" "__Lib_PWM_b3.mcl" "__Lib_UART_b21.mcl" "__Lib_CF.mcl" "__Lib_GlcdFonts.mcl" "__Lib_Glcd.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl" "__Lib_RS485.mcl" "__Lib_S1D13700.mcl" "__Lib_T6963C.mcl"	 
+hint: 0	1139	Available RAM: 208 [bytes], Available ROM: 2048 [bytes]	 
+diagnostics: 0	122	Compilation Started	seriallib.h
+diagnostics: 165	123	Compiled Successfully	E2_Serial_Terminal.c
+diagnostics: 0	127	All files Compiled in 141 ms	 
+hint: 0	1144	Used RAM (bytes): 111 (53%)  Free RAM (bytes): 97 (47%)	Used RAM (bytes): 111 (53%)  Free RAM (bytes): 97 (47%)
+hint: 0	1144	Used ROM (program words): 1902 (93%)  Free ROM (program words): 146 (7%)	Used ROM (program words): 1902 (93%)  Free ROM (program words): 146 (7%)
+diagnostics: 0	125	Project Linked Successfully	E2_Serial_Terminal.mcppi
+diagnostics: 0	128	Linked in 297 ms	 
+diagnostics: 0	129	Project 'E2_Serial_Terminal.mcppi' completed: 610 ms	 
+diagnostics: 0	103	Finished successfully: 15 dez 2021, 02:01:44	E2_Serial_Terminal.mcppi

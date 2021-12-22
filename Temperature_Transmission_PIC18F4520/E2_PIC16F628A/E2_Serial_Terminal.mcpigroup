@@ -1,0 +1,7 @@
+[PROJECTS]
+Count=3
+Project0=..\..\..\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula17\C_Term_Sensor.mcppi
+Project1=..\E1_PIC18F4520\E1_Temp_Serial.mcppi
+Project2=E2_Serial_Terminal.mcppi
+[ActiveProject]
+Index=2
