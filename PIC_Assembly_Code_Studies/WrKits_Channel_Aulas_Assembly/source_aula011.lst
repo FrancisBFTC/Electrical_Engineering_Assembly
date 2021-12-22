@@ -1,0 +1,302 @@
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;
+                      00002 ; Curso De Assembly para PIC Aula 011
+                      00003 ;
+                      00004 ; Acionar o led1 ligado em RB1 apartir de um botao1 ligado em RB0
+                      00005 ; Acionar o led2 ligado em RB3 apartir de um botao2 ligado em RB2
+                      00006 ;
+                      00007 ; Obs.:
+                      00008 ;
+                      00009 ; Aciona LED1 ligado em RB1 e apaga LED2 ligado em RB3
+                      00010 ; Aguarda 500 milisegundos
+                      00011 ; Aciona LED2 ligado em RB3 e paga LED1 ligado em RB1
+                      00012 ; Aguarda 500 milisegundos
+                      00013 ;
+                      00014 ;
+                      00015 ; Cálculo do Ciclo de máquina
+                      00016 ;
+                      00017 ; Ciclo de Máquina = 1 / (Freq_Cristal / 4) = 1us (MicroSegundos)
+                      00018 ; (4MHz / 4 Ciclos) = 1000000 Hz (PIC_Speed = 1MHz) 
+                      00019 ; 1 / 1000000Hz = 0,000001s = 1 MicroSegundos
+                      00020 ; 1 Ciclo = 1 MicroSegundos
+                      00021 ; Cada instrução gasta 1 Ciclo, Instruções de salto gasta 2 ciclos
+                      00022 ;
+                      00023 ; MCU (MicroController Unit): PIC16F84A   Clock: 4MHz
+                      00024 ;
+                      00025 ; www.wrkits.com.br     |       www.facebook.com/wrkits         |       www.youtube.com/canalwrkits
+                      00026 ;
+                      00027 ; Author: Eng. Warner Rambo     Data: 18/10/2021
+                      00028 ;
+                      00029 
+                      00030         list p=16F84A                   ; Microcontrolador Utilizado PIC16F84A
+                      00031 
+                      00032 ; --- Arquivos inclusoes no projeto ---
+                      00033         #include <p16f84a.inc>  ; Inclui o arquivo do PIC16F84A
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F84A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00208         LIST
+                      00034 
+                      00035 ; --- Entrada de dados ---
+                      00036         #define         botao1  PORTB, RB0      ; Define na PORTB a Porta RB0 para botao1
+                      00037         #define         botao2  PORTB, RB2              ; Define na PORTB a Porta RB2 para botao2
+                      00038 
+                      00039 ; --- Saida de dados ---
+                      00040         #define         led1    PORTB, RB1              ; Define na PORTB a Porta RB1 para led1
+                      00041         #define         led2    PORTB, RB3              ; Define na PORTB a Porta RB3 para led2 
+                      00042 
+                      00043 ; --- Fuse Bits ---
+                      00044 ; Cristal oscilador externo de 4MHz, sem watchdog timer, com power up timer e sem protecao de codigo
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+2007   3FF1           00045         __config _XT_OSC & _WDT_OFF & _PWRTE_ON & _CP_OFF
+                      00046 
+                      00047 
+                      00048 ; --- Paginacao de memoria ---
+                      00049         #define         bank0   bcf STATUS, RP0         ; Mnemonico que limpa o bit RP0 do Registrador S
+                            TATUS (Selecionar Banco 0 - Instrucao Bit Clear File)
+                      00050         #define         bank1   bsf STATUS, RP0         ; Mnemonico que seta o bit RP0 do Registrador ST
+                            ATUS (Selecionar Banco 1 - Instrucao Bit Set File)
+                      00051 
+                      00052 ; --- Registradores de Uso Geral ---
+                      00053  CBLOCK         H'0C'                   ; Inicio da memória de usuário 
+                      00054         
+  0000000C            00055         TIME1                                   ; Registrador auxiliar de temporização
+  0000000D            00056         TIME2                                   ; Registrador auxiliar de temporização
+                      00057  
+                      00058  ENDC                                           ; Fim da memória de usuário
+                      00059 
+                      00060 ; --- Vetor de RESET ---
+0000                  00061         org     H'0000'
+0000   2805           00062         goto    start
+                      00063 
+                      00064 ; --- Vetor de Interrupcao ---
+0004                  00065         org     H'0004'
+0004   0009           00066         retfie
+                      00067 
+                      00068 ; --- Inicio de codigo ---
+0005                  00069 start:
+0005   1683           00070         bank1                                   ; Seleciona o Banco 1 de memória
+0006   30FF           00071         movlw   H'FF'                   ; WORK = B'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0007   0085           00072         movwf   TRISA                   ; Todos os pinos como entrada no TRISA
+0008   30F5           00073         movlw   H'F5'                   ; WORK = H'F5' = B'11110101'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0009   0086           00074         movwf   TRISB                   ; Apenas o pino RB1 e RB3 como saída no TRISB
+000A   1283           00075         bank0                                   ; Seleciona o Banco 0 de memória
+                      00076 
+000B   30F5           00077         movlw   H'F5'                   ; WORK = B'11110101'
+000C   0086           00078         movwf   PORTB                   ; Limpa os pinos RB1 e RB3 de PORTB para Desligados (HIGH)
+                      00079         
+000D                  00080 loop:
+000D   1486           00081         bsf     led1                    ; Liga LED1
+000E   1186           00082         bcf     led2                    ; Desliga LED2
+000F   2014           00083         call    Delay500ms              ; Espera 500 milisegundos
+0010   1086           00084         bcf     led1                    ; Desliga LED1
+0011   1586           00085         bsf     led2                    ; Liga LED2
+0012   2014           00086         call    Delay500ms              ; Espera 500 milisegundos
+                      00087 
+0013   280D           00088         goto    loop                    ; Volta para label loop
+                      00089         
+                      00090 
+                      00091 ; --- Desenvolvimento das Sub-Rotinas
+                      00092 
+                      00093 ; Rotina de Delay de 500 milisegundos
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0014                  00094 Delay500ms:
+0014   30C8           00095         movlw   D'200'                  ; Move o valor 200 para W
+0015   008C           00096         movwf   TIME1                   ; Inicializa variável tempo1 (Endereço relativo)
+0016                  00097 Aux1:                                           ; Já gastou 4 ciclos de máquina
+0016   30FA           00098         movlw   D'250'                  ; Move o valor 250 para W
+0017   008D           00099         movwf   TIME2                   ; Inicializa variávem tempo2 (Endereço relativo)
+                      00100 
+0018                  00101 Aux2:
+0018   0000           00102         nop                                             ; Gasta 1 ciclo de máquina
+0019   0000           00103         nop                                             ; Gasta 1 ciclo de máquina
+001A   0000           00104         nop                                             ; Gasta 1 ciclo de máquina
+001B   0000           00105         nop                                             ; Gasta 1 ciclo de máquina
+001C   0000           00106         nop                                             ; Gasta 1 ciclo de máquina
+001D   0000           00107         nop                                             ; Gasta 1 ciclo de máquina
+001E   0000           00108         nop                                             ; Gasta 1 ciclo de máquina
+Message[305]: Using default destination of 1 (file).
+001F   0B8D           00109         decfsz  TIME2                   ; Decrementa tempo2 até que seja igual a 0
+0020   2818           00110         goto    Aux2                    ; Vai para a label Aux2
+                      00111                                                         ; GOTO gasta 2 ciclos de máquinas, logo foram 10
+                             ciclos
+                      00112                                                         ; 250 x 10 ciclos de máquina = 2500 ciclos
+Message[305]: Using default destination of 1 (file).
+0021   0B8C           00113         decfsz  TIME1                   ; Decrementa tempo1 até que seja igual a 0
+0022   2816           00114         goto    Aux1                    ; Vai para a label Aux1
+                      00115                                                         ; Instruções acima gastou 3 ciclos de máquina
+                      00116                                                         ; 2500 x 200 = 500000 ciclos de máquina
+0023   0008           00117         return                                  ; Retorna para a chamada
+                      00118                                                         
+Warning[205]: Found directive in column 1. (end)
+                      00119 end                                             ; Final do programa
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+Aux1                              00000016
+Aux2                              00000018
+C                                 00000000
+DC                                00000001
+Delay500ms                        00000014
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0IF                              00000002
+T0SE                              00000004
+TIME1                             0000000C
+TIME2                             0000000D
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_DEVID1                           00002006
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+__DEBUG                           1
+bank0                             bcf STATUS, RP0
+bank1                             bsf STATUS, RP0
+MPASM  5.51                SOURCE_AULA011.ASM   10-27-2021  1:34:59         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+botao1                            PORTB, RB0
+botao2                            PORTB, RB2
+led1                              PORTB, RB1
+led2                              PORTB, RB3
+loop                              0000000D
+start                             00000005
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXX------------ ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    33
+Program Memory Words Free:   991
+
+
+Errors   :     0
+Warnings :     1 reported,     0 suppressed
+Messages :     4 reported,     0 suppressed
+
+

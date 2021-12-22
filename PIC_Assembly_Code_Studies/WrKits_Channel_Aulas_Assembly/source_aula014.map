@@ -1,0 +1,40 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Wed Nov 10 16:30:13 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000016
+.config_2007_SOURCE_AULA014.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00000e      
+                            0x002007    0x002007      
+            13 out of 1094 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                      Aux   0x000009    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+                     loop   0x000007    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+                    start   0x000005    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    start   0x000005    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+                     loop   0x000007    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+                      Aux   0x000009    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\Projeto010\source_aula014.asm
+
+
