@@ -1,0 +1,448 @@
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; -------------------------------------------------------------------------
+                      00002 ; Lista de Exercícios N.2 - LISTA Questão 2
+                      00003 ; Assembly Microcontrolador PIC16F6284A
+                      00004 ;
+                      00005 ; Curso : Eng. Elétrica da IFBA 
+                      00006 ; Autora: Dirlene Napoleão   Data: 28/10/2021
+                      00007 ; Clock : 4 MHz
+                      00008 ; 
+                      00009 ; Descrição: Programa que aciona um LED ao pressionar um botao apos o Delay
+                      00010 ; de 2 Segundos. Botao conectado no pino RA4 e Led conectado no pino RB0.
+                      00011 ; -------------------------------------------------------------------------
+                      00012 
+                      00013 ; *** Definição do Microcontrolador Utilizado ***
+Warning[205]: Found directive in column 1. (list)
+                      00014 list    p=16F628A
+                      00015 
+                      00016 ; *** Inclusão das definições de endereços do PIC ***
+                      00017 #include        <p16f628a.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00385         LIST
+                      00018 
+                      00019 ; *** Configuração dos FUSE BITs ***
+                      00020 ; Cristal oscilador externo de 4MHz, sem watchdog timer, com power up timer e sem protecao de codigo
+Warning[205]: Found directive in column 1. (__config)
+2007   3FE1           00021 __config        _XT_OSC & _WDT_OFF & _PWRTE_ON & _CP_OFF
+                      00022 
+                      00023 ; *** Paginacao de memoria ***
+                      00024 #define  SelecionaBanco0  bcf  STATUS,RP0               ; Limpa BIT RP0 da SFR STATUS
+                      00025 #define  SelecionaBanco1  bsf  STATUS,RP0               ; Seta BIT RP0 da SFR STATUS
+                      00026 
+                      00027 ; *** Definições de Entradas e Saídas de Dados ***
+                      00028 #define  BOTAO     PORTA,RA4                            ; Pino RA4 da SFR PORTA
+                      00029 #define  LED       PORTB,RB0                            ; Pino RB0 da SFR PORTB
+                      00030 #define  TIMER_ON   bsf PORTB,RB1                       ; Habilita o componente de Timer
+                      00031 #define  TIMER_OFF  bcf PORTB,RB1                   ; Desabilita/pausa o componente de Timer
+                      00032 
+                      00033 ; *** Alocação dos registradores de Uso Gerais ***
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00034 CBLOCK          H'20'                   ; Inicio da memoria de usuario no endereço 0x0C
+  00000020            00035         DELAY1                                  ; Registrador Auxiliar para Delay
+  00000021            00036         DELAY2                                  ; Registrador Auxiliar para Delay
+  00000022            00037         DELAY3                                  ; Registrador Auxiliar para Delay
+Warning[205]: Found directive in column 1. (ENDC)
+                      00038 ENDC                                            ; Final da memoria de usuario
+                      00039 
+                      00040 ; *** Vetor de RESET ***
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0000                  00041         org     H'0000'
+0000   2805           00042         goto    InicioPrograma  ; Salta o Vetor de Interrupção, indo para o InicioPrograma
+                      00043 
+                      00044 ; *** Vetor de Interrupcao ***
+0004                  00045         org     H'0004'
+0004   0009           00046         retfie
+                      00047 
+                      00048 
+                      00049 ; *****************************************************************************************
+                      00050 ; Inicio do Programa:
+                      00051 ;       Configura os Pinos para entrada & saída do Botao e do LED, respectivamente.     
+                      00052 ; *****************************************************************************************
+0005                  00053 InicioPrograma:
+0005   1683           00054         SelecionaBanco1         ; Banco 1 de memória Selecionado para TRISA & TRISB  
+0006   30FF           00055         movlw   H'FF'                   ; WORK = B'11111111'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0007   0085           00056         movwf   TRISA                   ; Todos os pinos como entrada no TRISA      
+0008   30FC           00057         movlw   H'FC'                   ; WORK = H'F5' = B'11111100'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0009   0086           00058         movwf   TRISB                   ; Apenas o pino RB0 e RB1 como Saída no TRISB (RB1 vai habilitar
+                             o Timer)
+000A   1283           00059         SelecionaBanco0                 ; Retorna ao Banco 0 de memória para o PORTB
+                      00060         
+000B   30FF           00061         movlw   H'FF'                   ; WORK = B'11111111'
+000C   0085           00062         movwf   PORTA                   ; Define todos os pinos para HIGH
+000D   30FC           00063         movlw   H'FC'                   ; WORK = B'11111100'
+000E   0086           00064         movwf   PORTB                   ; Define os pinos RB0 e RB1 de PORTB para Desligados
+000F   1006           00065         bcf     LED                             ; Desacione o LED em RB0
+                      00066 
+                      00067 
+                      00068 ; *****************************************************************************************
+                      00069 ; Espere pelo Botao ser pressionado, caso sim, espere 2s e Acione o LED
+                      00070 ; OBS.: Botao conectado em resistor de pull-up, logo se pressionado, envia
+                      00071 ; nivel logico baixo, ou seja, 0. (Circuito Inversor Por Processamento)
+                      00072 ; *****************************************************************************************
+0010                  00073 EspereBotao:
+0010   1A05           00074         btfsc   BOTAO                   ; Testa o bit RA4 de PORTA, Salte abaixo se recebeu nível lógico
+                             0
+0011   2810           00075         goto    EspereBotao             ; Se receber nível lógico 1, Volte e teste novamente
+0012   2015           00076         call    Delay2S                 ; Chama um Delay de 2 Segundos  (500ms x 4)     
+0013   1406           00077         bsf     LED                     ; Acione o LED em RB0 Após Delay
+0014   2814           00078         goto    $                               ; Trave o programa nesse loop infinito
+                      00079 
+                      00080 
+                      00081 
+                      00082 ; ********************************************************************************************
+                      00083 ; Calculo de Delay pelo Ciclo de Maquina:
+                      00084 ;       Ciclo de Máquina = 1 / (Freq_Cristal / 4) = 1us (MicroSegundos);
+                      00085 ;       (4MHz / 4 Ciclos) = 1000000 Hz (PIC_Speed = 1MHz);
+                      00086 ;       1 / 1000000Hz = 0,000001s = 1 MicroSegundos;
+                      00087 ;       1 Ciclo = 1 MicroSegundos;
+                      00088 ;       Cada instrução gasta 1 Ciclo, Instruções de salto gasta 2 ciclos;
+                      00089 ;       Time2 executa 10 Ciclos 250 vezes, Time1 executa 200 vezes e
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00090 ;       Delay2S executa 4 vezes, logo: 250 x 10 x 200 x 4 = 2000000 Ciclos = 2000000 MicroSegundos;
+                      00091 ;       OBS.: Devido a mais ciclos em excesso, o tempo pode ultrapassar valores desconsideraveis.
+                      00092 ; *********************************************************************************************
+0015                  00093 Delay2S:
+0015   3004           00094         movlw   D'4'                    ; Move o valor 4 para W
+0016   00A2           00095         movwf   DELAY3                  ; Inicializa variavel DELAY3 com 4
+0017   1486           00096         TIMER_ON                                ; Inicia o Temporizador
+0018                  00097 Time0:
+0018   30C8           00098         movlw   D'200'                  ; Move o valor 200 para W
+0019   00A0           00099         movwf   DELAY1                  ; Inicializa variável DELAY1 com 200
+001A                  00100 Time1:                                          ; Já gastou 6 ciclos de máquina (Em Excesso)
+001A   30FA           00101         movlw   D'250'                  ; Move o valor 250 para W
+001B   00A1           00102         movwf   DELAY2                  ; Inicializa variavel DELAY2 com 250
+001C                  00103 Time2:
+001C   0000           00104         nop                                             ; Gasta 1 ciclo de máquina
+001D   0000           00105         nop                                             ; Gasta 1 ciclo de máquina
+001E   0000           00106         nop                                             ; Gasta 1 ciclo de máquina
+001F   0000           00107         nop                                             ; Gasta 1 ciclo de máquina
+0020   0000           00108         nop                                             ; Gasta 1 ciclo de máquina
+0021   0000           00109         nop                                             ; Gasta 1 ciclo de máquina
+0022   0000           00110         nop                                             ; Gasta 1 ciclo de máquina
+Message[305]: Using default destination of 1 (file).
+0023   0BA1           00111         decfsz  DELAY2                  ; Decrementa DELAY2 até que seja igual a 0
+0024   281C           00112         goto    Time2                   ; Vai para a label Time2 se não for 0
+                      00113                                                         ; OBS.: GOTO gasta 2 ciclos de máquinas, logo fo
+                            ram 10 ciclos até aqui
+                      00114                                                         ; 250 x 10 ciclos de máquina = 2500 ciclos
+Message[305]: Using default destination of 1 (file).
+0025   0BA0           00115         decfsz  DELAY1                  ; Decrementa DELAY1 até que seja igual a 0
+0026   281A           00116         goto    Time1                   ; Vai para a label Time1 se não for 0
+                      00117                                                         ; OBS.: Instruções acima gastou 3 ciclos de máqu
+                            ina (Em Excesso)
+                      00118                                                         ; 2500 x 200 = 500000 ciclos de máquina
+Message[305]: Using default destination of 1 (file).
+0027   0BA2           00119         decfsz  DELAY3                  ; Decrementa DELAY3 até que seja igual a 0              
+0028   2818           00120         goto    Time0                   ; Repita o Delay de 500ms tudo novamente (Vai repetir 4 vezes)
+                      00121                                                         ; 500000 Ciclos x 4 = 2000000 Ciclos = 2000ms = 
+                            2s
+0029   1086           00122         TIMER_OFF                               ; Pause o temporizador
+002A   0008           00123         return                                  ; Retorna para a chamada
+                      00124                                                         
+Warning[205]: Found directive in column 1. (end)
+                      00125 end                                             ; Final do programa
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BOTAO                             PORTA,RA4
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+DELAY1                            00000020
+DELAY2                            00000021
+DELAY3                            00000022
+Delay2S                           00000015
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+EspereBotao                       00000010
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IRP                               00000007
+InicioPrograma                    00000005
+LED                               PORTB,RB0
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
+SelecionaBanco0                   bcf  STATUS,RP0
+SelecionaBanco1                   bsf  STATUS,RP0
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TIMER_OFF                         bcf PORTB,RB1
+TIMER_ON                          bsf PORTB,RB1
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+Time0                             00000018
+Time1                             0000001A
+Time2                             0000001C
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+MPASM  5.51               BOTAO_DELAY_LED.ASM   11-1-2021  21:26:41         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXX----- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    40
+Program Memory Words Free:  2008
+
+
+Errors   :     0
+Warnings :     5 reported,     0 suppressed
+Messages :     5 reported,     0 suppressed
+
+
