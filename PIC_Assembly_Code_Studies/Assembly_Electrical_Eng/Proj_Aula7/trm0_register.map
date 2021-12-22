@@ -1,0 +1,46 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Tue Nov 16 14:12:17 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000076
+.config_2007_TRM0_REGISTER.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00003e      
+                            0x002007    0x002007      
+            61 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+             Retardo500ms   0x00002f    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     dec1   0x000031    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     dec2   0x000033    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                   inicio   0x00001c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     loop   0x00002b    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     sair   0x000017    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     sair   0x000017    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                   inicio   0x00001c    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     loop   0x00002b    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+             Retardo500ms   0x00002f    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     dec1   0x000031    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+                     dec2   0x000033    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula7\trm0_register.asm
+
+
