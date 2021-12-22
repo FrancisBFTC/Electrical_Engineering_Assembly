@@ -1,0 +1,20 @@
+SYM  #pmos
+BB(40,-5,60,15)
+TITLE 90 -15  #pmos
+MODEL 902
+PROP   0.5u 0.05u MP                                                                                                                               
+REC(41,0,19,15,r)
+VIS 0
+PIN(55,11,0.000,0.000)s
+PIN(46,5,0.000,0.000)g
+PIN(55,0,0.000,0.000)d
+LIG(50,5,46,5)
+LIG(50,5,50,5)
+LIG(50,7,50,3)
+LIG(52,7,52,3)
+LIG(55,3,52,3)
+LIG(55,0,55,3)
+LIG(55,9,52,7)
+LIG(55,11,55,9)
+VLG pmos pmos(drain,source,gate);
+FSYM

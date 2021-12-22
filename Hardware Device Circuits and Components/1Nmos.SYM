@@ -1,0 +1,19 @@
+SYM  #nmos
+BB(35,-5,55,15)
+TITLE 50 0  #nmos_1
+MODEL 901
+PROP   0.3u 0.05u MN                                                                                                                               
+REC(36,0,19,15,r)
+VIS 0
+PIN(50,10,0.000,0.000)s
+PIN(41,5,0.000,0.000)g
+PIN(50,-1,0.000,0.000)d
+LIG(45,5,41,5)
+LIG(45,7,45,3)
+LIG(47,7,47,3)
+LIG(50,1,47,3)
+LIG(50,-1,50,1)
+LIG(50,7,47,7)
+LIG(50,10,50,7)
+VLG nmos nmos(drain,source,gate);
+FSYM
