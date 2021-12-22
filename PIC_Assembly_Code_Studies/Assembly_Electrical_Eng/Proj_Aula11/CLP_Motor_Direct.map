@@ -1,0 +1,42 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Tue Nov 16 23:29:54 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000c2
+.config_2007_CLP_MOTOR_DIRECT.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000064      
+                            0x002007    0x002007      
+            99 out of 8454 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     IEND   0x00000d    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\interrupts.inc
+                Interrupt   0x000006    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\interrupts.inc
+                  _config   0x000014    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\configs.inc
+                   _start   0x000020    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\CLP_Motor_Direct.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                Interrupt   0x000006    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\interrupts.inc
+                     IEND   0x00000d    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\interrupts.inc
+                  _config   0x000014    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\configs.inc
+                   _start   0x000020    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Especial\Proj_Aula11\CLP_Motor_Direct.asm
+
+
