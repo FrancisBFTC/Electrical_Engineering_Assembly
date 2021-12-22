@@ -5,4 +5,4 @@ coeficientes de uma equação característica num denominador completo e constru
 se este sistema é estável, instável ou marginalmente estável. O Algoritmo em C é capaz de apresentar informações no CMD de forma visual e divertida, mostrando as equações e a tabela,
 como também relatórios informando ao usuário sobre o resultado da análise. O Algoritmo processa em cima de 3 argumentos dados no início: O valor do controlador que é uma voltagem
 positiva ou negativa dado ao "ganho" do sistema de malha fechada, o coeficiente X que será parte da equação característica como denominador representando o resistor RF e o coeficiente Y que será a outra parte da
-equação característica como denominador representao o resistor auxiliar da realimentação da malha, é através destes 3 argumentos que todo o sistema irá se basear para efetuar os cálculos e nos dar o resultado apropriado.
+equação característica como denominador representando o resistor auxiliar da realimentação da malha, é através destes 3 argumentos que todo o sistema irá se basear para efetuar os cálculos e nos dar o resultado apropriado.
