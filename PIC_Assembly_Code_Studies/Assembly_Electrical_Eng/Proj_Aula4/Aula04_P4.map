@@ -1,0 +1,38 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Wed Nov 10 11:35:03 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000022
+ .config_2007_AULA04_P4.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000010      
+                            0x002007    0x002007      
+            18 out of 2182 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     DecB   0x00000b    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+                 Multiply   0x000009    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+                   inicio   0x000001    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   inicio   0x000001    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+                 Multiply   0x000009    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+                     DecB   0x00000b    program     static C:\Users\BFTC\Desktop\D.S.O.S\Systems\PIC Assembly Programming\Source-Code\ProjetoENG421_Aula\Aula04_P4.asm
+
+

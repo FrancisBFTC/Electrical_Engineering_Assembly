@@ -1,0 +1,4 @@
+Warning[205] C:\USERS\BFTC\DESKTOP\D.S.O.S\SYSTEMS\PIC ASSEMBLY PROGRAMMING\SOURCE-CODE\PROJETOENG421_AULA\AULA04.ASM 5 : Found directive in column 1. (__config)
+Message[302] C:\USERS\BFTC\DESKTOP\D.S.O.S\SYSTEMS\PIC ASSEMBLY PROGRAMMING\SOURCE-CODE\PROJETOENG421_AULA\AULA04.ASM 20 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\BFTC\DESKTOP\D.S.O.S\SYSTEMS\PIC ASSEMBLY PROGRAMMING\SOURCE-CODE\PROJETOENG421_AULA\AULA04.ASM 23 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\BFTC\DESKTOP\D.S.O.S\SYSTEMS\PIC ASSEMBLY PROGRAMMING\SOURCE-CODE\PROJETOENG421_AULA\AULA04.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
