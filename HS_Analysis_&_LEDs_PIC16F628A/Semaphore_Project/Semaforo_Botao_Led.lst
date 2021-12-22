@@ -1,0 +1,557 @@
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; -------------------------------------------------------------------------
+                      00002 ; Lista de Exercícios N.2 - LISTA Questão 3 - Semaforo
+                      00003 ; ITEMs A, B, C e D
+                      00004 ; Assembly Microcontrolador PIC16F6284A
+                      00005 ;
+                      00006 ; Curso : Eng. Elétrica da IFBA 
+                      00007 ; Autora: Dirlene Napoleão   Data: 28/10/2021
+                      00008 ; Clock : 4 MHz
+                      00009 ; 
+                      00010 ; Descrição: Programa aciona led verde e pisca led vermelho dentro do tempo de 1s
+                      00011 ; (1Hz), quando um botão é pressionado, desliga o led verde e liga o led vermelho
+                      00012 ; dentro do tempo de 20ms (50Hz). Após isso, O Led vermelho fica acionado por 2s e
+                      00013 ; em seguida o led vermelho pisca a cada 250ms (2Hz), quando houver pressionamento
+                      00014 ; de outro botão (Sensor que identifica pedrestre no final da faixa), o led vermelho
+                      00015 ; desliga e começa a piscar novamente a cada 500ms (1Hz) e o led verde volta a ser acionado
+                      00016 ; como no inicio do programa.
+                      00017 ; -------------------------------------------------------------------------
+                      00018 
+                      00019 ; *** Definição do Microcontrolador Utilizado ***
+Warning[205]: Found directive in column 1. (list)
+                      00020 list    p=16F628A
+                      00021 
+                      00022 ; *** Inclusão das definições de endereços do PIC ***
+                      00023 #include        <p16f628a.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00385         LIST
+                      00024 
+                      00025 ; *** Configuração dos FUSE BITs ***
+                      00026 ; Cristal oscilador externo de 4MHz, sem watchdog timer, com power up timer e sem protecao de codigo
+Warning[205]: Found directive in column 1. (__config)
+2007   3FE1           00027 __config        _XT_OSC & _WDT_OFF & _PWRTE_ON & _CP_OFF
+                      00028 
+                      00029 ; *** Paginacao de memoria ***
+                      00030 #define  SelecionaBanco0  bcf  STATUS,RP0               ; Limpa BIT RP0 da SFR STATUS
+                      00031 #define  SelecionaBanco1  bsf  STATUS,RP0               ; Seta BIT RP0 da SFR STATUS
+                      00032 
+                      00033 ; *** Definições de Entradas e Saídas de Dados ***
+                      00034 #define  BOTAO_S    PORTB,RB0                           ; Pino RB0 da SFR PORTB
+                      00035 #define  SENSOR_C   PORTB,RB1                           ; Pino RB1 da SFR PORTB
+                      00036 #define  LEDGREEN   PORTB,RB2                           ; Pino RB2 da SFR PORTB
+                      00037 #define  LEDRED     PORTB,RB3                           ; Pino RB3 da SFR PORTB 
+                      00038 #define  TIMER_ON   bsf PORTA,RA0                       ; Habilita o componente de Timer
+                      00039 #define  TIMER_OFF  bcf PORTA,RA0                   ; Desabilita/pausa o componente de Timer
+                      00040 
+                      00041 ; *** Constantes Literais para Delay ***
+  00000004            00042 F_50Hz   EQU    D'4'
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000064            00043 F_2Hz    EQU    D'100'
+                      00044 
+                      00045 ; *** Alocação dos registradores de Uso Gerais ***
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00046 CBLOCK          H'20'                   ; Inicio da memoria de usuario no endereço 0x0C
+  00000020            00047         DELAY1                                  ; Registrador Auxiliar para Delay
+  00000021            00048         DELAY2                                  ; Registrador Auxiliar para Delay
+  00000022            00049         DELAY3                                  ; Registrador Auxiliar para Delay
+Warning[205]: Found directive in column 1. (ENDC)
+                      00050 ENDC                                            ; Final da memoria de usuario
+                      00051 
+                      00052 ; *** Vetor de RESET ***
+0000                  00053         org     H'0000'
+0000   2805           00054         goto    InicioPrograma  ; Salta o Vetor de Interrupção, indo para o InicioPrograma
+                      00055 
+                      00056 ; *** Vetor de Interrupcao ***
+0004                  00057         org     H'0004'
+0004   0009           00058         retfie
+                      00059 
+                      00060 
+                      00061 ; *****************************************************************************************
+                      00062 ; Inicio do Programa:
+                      00063 ;       Configura os Pinos para entrada & saída dos Botoes e LEDs, respectivamente.     
+                      00064 ; *****************************************************************************************
+0005                  00065 InicioPrograma:
+0005   1683           00066         SelecionaBanco1         ; Banco 1 de memória Selecionado para TRISA & TRISB  
+0006   30FE           00067         movlw   H'FE'                   ; WORK = B'11111110'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0007   0085           00068         movwf   TRISA                   ; Todos os pinos como entrada no TRISA      
+0008   30F3           00069         movlw   H'F3'                   ; WORK = H'F3' = B'11110011'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0009   0086           00070         movwf   TRISB                   ; Pinos RB0 e RB1 como Entrada; Pinos RB2 e RB3 como saída
+000A   1283           00071         SelecionaBanco0                 ; Retorna ao Banco 0 de memória para o PORTB
+                      00072         
+000B   3000           00073         movlw   H'00'                   ; WORK = B'00000000'
+000C   0085           00074         movwf   PORTA                   ; Define todos os pinos para LOW
+000D   30F7           00075         movlw   H'F7'                   ; WORK = B'11110111'
+000E   0086           00076         movwf   PORTB                   ; Define todos os Pinos para HIGH, exceto pino RB3
+                      00077         
+000F   1506           00078         bsf     LEDGREEN                ; Acione LED verde em RB2
+0010   1486           00079         bsf     SENSOR_C                ; Sete Sensor para HIGH (Nivel alto)
+0011   1406           00080         bsf     BOTAO_S                 ; Sete Botao para HIGH (Nivel alto)
+                      00081 ; *****************************************************************************************
+                      00082 
+                      00083 
+                      00084 ; *****************************************************************************************
+                      00085 ; Enquanto os veiculos passam pela via, o sinal verde é acionado e o sinal vermelho pisca
+                      00086 ; numa frequência de 1Hz (1 segundo), até que um Botão seja pressionado pelo pedestre.
+                      00087 ; OBS.: Botao conectado em resistor de pull-up, logo se pressionado, envia
+                      00088 ; nivel logico baixo, ou seja, 0. (Circuito Inversor Por Processamento)
+                      00089 ; *****************************************************************************************
+                      00090 ; ITEM A - Veiculos em Trânsito
+0012                  00091 VeiculosPassando:
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0012   1586           00092         bsf     LEDRED                          ; Acione o sinal vermelho
+0013   202D           00093         call    Delay1Hz                        ; Chama um delay de 1Hz = 1 Segundo / 2 (2 estados)
+0014   1186           00094         bcf     LEDRED                          ; Desacione o sinal vermelho
+0015   202D           00095         call    Delay1Hz                        ; Tempo de 500ms
+0016   1806           00096         btfsc   BOTAO_S                 ; Testa o bit RB0 de PORTB, Salte abaixo se recebeu nível lógico
+                             0
+0017   2812           00097         goto    VeiculosPassando        ; Se receber nível lógico 1, Volte e teste novamente
+                      00098         
+                      00099 ; ITEM B - Pedestre pressiona para atravessar   
+0018                  00100 PedestreBotao:                                  ; Apos o pedestre pressionar o botao, execute esta Rotin
+                            a
+0018   1106           00101         bcf     LEDGREEN                        ; Desacione o sinal verde apos Delay
+0019   3004           00102         movlw   F_50Hz                          ; Move o valor 4 para W
+001A   00A0           00103         movwf   DELAY1                          ; Inicializa variável DELAY1 com 4 (Pra 50Hz no Delay)
+001B   203F           00104         call    DelayXHz                        ; Espere 10ms (1s / 50Hz / 2 -> 0,01s)  
+001C   1586           00105         bsf     LEDRED                          ; Acione o sinal vermelho após Delay
+                      00106 
+                      00107 ; ITEM C - Pedestre atravessando
+001D                  00108 PedestrePassando:                               ; Nesta etapa, o pedestre esta atravessando a faixa
+001D   202D           00109         call    Delay1Hz                        ; Espere 500ms no delay
+001E   202D           00110         call    Delay1Hz                        ; Espere 500ms no delay (Já foi 1s do LED acionado)
+001F                  00111 PisqueSinal:
+001F   1186           00112         bcf     LEDRED                          ; Desacione o sinal vermelho
+0020   3064           00113         movlw   F_2Hz                           ; Move o valor 100 para W
+0021   00A0           00114         movwf   DELAY1                          ; Inicializa variável DELAY1 com 100 (Pra 2Hz no Delay)
+0022   203F           00115         call    DelayXHz                        ; Espere 250ms (1s / 2Hz / 2 -> 0,25s)
+0023   1586           00116         bsf     LEDRED                          ; Acione o sinal vermelho
+0024   3064           00117         movlw   F_2Hz                           ; Move o valor 100 para W
+0025   00A0           00118         movwf   DELAY1                          ; Inicializa variável DELAY1 com 100 (Pra 2Hz no Delay)
+0026   203F           00119         call    DelayXHz                        ; Espere 250ms (1s / 2Hz / 2-> 0,25s)
+0027   1886           00120         btfsc   SENSOR_C
+0028   281F           00121         goto    PisqueSinal
+                      00122         
+                      00123 ; ITEM D - Pedestre atravessa & Veículos voltam a transitar
+0029                  00124 PedestreChegou:                                 ; Pedestre atravessou a faixa apos o sensor identificar
+0029   1186           00125         bcf     LEDRED                          ; Desacione o sinal vermelho
+002A   202D           00126         call    Delay1Hz                        ; Espere 500ms
+002B   1506           00127         bsf     LEDGREEN                        ; Acione o sinal verde
+002C   2812           00128         goto    VeiculosPassando        ; Volta pro inicio e reinicialize o sinal vermelho
+                      00129 ; *****************************************************************************************     
+                      00130         
+                      00131 
+                      00132 ; *** Desenvolvimento Das Sub-Rotinas ***
+                      00133 
+                      00134 ; ********************************************************************************************
+                      00135 ; Calculo de Delay pelo Ciclo de Maquina:
+                      00136 ;       Ciclo de Máquina = 1 / (Freq_Cristal / 4) = 1us (MicroSegundos);
+                      00137 ;       (4MHz / 4 Ciclos) = 1000000 Hz (PIC_Speed = 1MHz);
+                      00138 ;       1 / 1000000Hz = 0,000001s = 1 MicroSegundos;
+                      00139 ;       1 Ciclo = 1 MicroSegundos;
+                      00140 ;       Cada instrução gasta 1 Ciclo, Instruções de salto gasta 2 ciclos;
+                      00141 ;       Time2 executa 10 Ciclos 250 vezes, Time1 executa 200 vezes e
+                      00142 ;       Delay1S executa 2 vezes, logo: 250 x 10 x 200 = 500000 Ciclos = 500000 MicroSegundos;
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00143 ;       OBS.: Devido a mais ciclos em excesso, o tempo pode ultrapassar valores desconsideraveis.
+                      00144 ; *********************************************************************************************
+002D                  00145 Delay1Hz:                                       ; Delay de 1 Segundo
+002D   1405           00146         TIMER_ON                                ; Inicia o Temporizador
+002E                  00147 Time0:
+002E   30C8           00148         movlw   D'200'                  ; Move o valor 182 para W
+002F   00A0           00149         movwf   DELAY1                  ; Inicializa variável DELAY1 com 200
+0030                  00150 Time1:                                          ; Já gastou 5 ciclos de máquina (Em Excesso)
+0030   30FA           00151         movlw   D'250'                  ; Move o valor 250 para W
+0031   00A1           00152         movwf   DELAY2                  ; Inicializa variavel DELAY2 com 250
+0032                  00153 Time2:
+0032   0000           00154         nop                                             ; Gasta 1 ciclo de máquina
+0033   0000           00155         nop                                             ; Gasta 1 ciclo de máquina
+0034   0000           00156         nop                                             ; Gasta 1 ciclo de máquina
+0035   0000           00157         nop                                             ; Gasta 1 ciclo de máquina
+0036   0000           00158         nop
+0037   0000           00159         nop
+0038   0000           00160         nop
+Message[305]: Using default destination of 1 (file).
+0039   0BA1           00161         decfsz  DELAY2                  ; Decrementa DELAY2 até que seja igual a 0
+003A   2832           00162         goto    Time2                   ; Vai para a label Time2 se não for 0
+                      00163                                                         ; OBS.: GOTO e RETURN gasta 2 ciclos de máquinas
+                            , logo foram 10 ciclos até aqui
+                      00164                                                         ; 250 x 10 ciclos de máquina = 2500 ciclos
+Message[305]: Using default destination of 1 (file).
+003B   0BA0           00165         decfsz  DELAY1                  ; Decrementa DELAY1 até que seja igual a 0
+003C   2830           00166         goto    Time1                   ; Vai para a label Time1 se não for 0
+                      00167                                                         ; OBS.: Instruções acima gastou 3 ciclos de máqu
+                            ina (Em Excesso)
+                      00168                                                         ; 2500 x 200 = 500000 ciclos de máquina
+003D   1005           00169         TIMER_OFF                               ; Pause o temporizador
+003E   0008           00170         return                                  ; Retorna para a chamada
+                      00171 ; *********************************************************************************************
+                      00172 
+                      00173 
+                      00174 ; ********************************************************************************************
+                      00175 ; 50Hz = 20ms / 2 estados = 10ms
+                      00176 ; 2 Hz = 1s / 2 estados = 500ms
+                      00177 ; DELAY1 = 4  -> 50Hz (8 / 2)
+                      00178 ; DELAY1 = 100 -> 2Hz (200 / 2)
+                      00179 ; Tudo depende do que estará em 'DELAY1'
+                      00180 ; ********************************************************************************************
+003F                  00181 DelayXHz:                                       ; Delay de 20 a 500 Milisegundos
+003F   1405           00182         TIMER_ON                                ; Inicia o Temporizador
+0040                  00183 Time50_1:                                       ; Já gastou 6 ciclos de máquina (Em Excesso)
+0040   30FA           00184         movlw   D'250'                  ; Move o valor 250 para W
+0041   00A1           00185         movwf   DELAY2                  ; Inicializa variavel DELAY2 com 250
+0042                  00186 Time50_2:
+0042   0000           00187         nop                                             ; Gasta 1 ciclo de máquina
+0043   0000           00188         nop                                             ; Gasta 1 ciclo de máquina
+0044   0000           00189         nop                                             ; Gasta 1 ciclo de máquina
+0045   0000           00190         nop                                             ; Gasta 1 ciclo de máquina
+0046   0000           00191         nop                                             ; Gasta 1 ciclo de máquina
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0047   0000           00192         nop                                             ; Gasta 1 ciclo de máquina                      
+0048   0000           00193         nop                                             ; Gasta 1 ciclo de máquina
+Message[305]: Using default destination of 1 (file).
+0049   0BA1           00194         decfsz  DELAY2                  ; Decrementa DELAY2 até que seja igual a 0
+004A   2842           00195         goto    Time50_2                ; Vai para a label Time50_2 se não for 0
+                      00196                                                         ; OBS.: GOTO gasta 2 ciclos de máquinas, logo fo
+                            ram 10 ciclos até aqui
+                      00197                                                         ; 200 x 10 ciclos de máquina = 2000 ciclos
+Message[305]: Using default destination of 1 (file).
+004B   0BA0           00198         decfsz  DELAY1                  ; Decrementa DELAY1 até que seja igual a 0
+004C   2840           00199         goto    Time50_1                ; Vai para a label Time50_1 se não for 0
+                      00200                                                         ; OBS.: Instruções acima gastou 3 ciclos de máqu
+                            ina (Em Excesso)
+                      00201                                                         ; 2000 x 10 = 20000 ciclos de máquina
+                      00202                                                         ; 20000 Ciclos = 20ms = 0,02s = 1s / 50Hz.
+004D   1005           00203         TIMER_OFF                               ; Pause o temporizador
+004E   0008           00204         return                                  ; Retorna para a chamada
+                      00205 ; ********************************************************************************************
+                      00206 
+                      00207                                                         
+Warning[205]: Found directive in column 1. (end)
+                      00208 end                                             ; Final do programa
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BOTAO_S                           PORTB,RB0
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+DELAY1                            00000020
+DELAY2                            00000021
+DELAY3                            00000022
+Delay1Hz                          0000002D
+DelayXHz                          0000003F
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+F_2Hz                             00000064
+F_50Hz                            00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+InicioPrograma                    00000005
+LEDGREEN                          PORTB,RB2
+LEDRED                            PORTB,RB3
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PedestreBotao                     00000018
+PedestreChegou                    00000029
+PedestrePassando                  0000001D
+PisqueSinal                       0000001F
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SENSOR_C                          PORTB,RB1
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
+SelecionaBanco0                   bcf  STATUS,RP0
+SelecionaBanco1                   bsf  STATUS,RP0
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TIMER_OFF                         bcf PORTA,RA0
+TIMER_ON                          bsf PORTA,RA0
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+Time0                             0000002E
+Time1                             00000030
+Time2                             00000032
+Time50_1                          00000040
+Time50_2                          00000042
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+VeiculosPassando                  00000012
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+MPASM  5.51            SEMAFORO_BOTAO_LED.ASM   11-2-2021  12:31:55         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXX- ---------------- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    76
+Program Memory Words Free:  1972
+
+
+Errors   :     0
+Warnings :     5 reported,     0 suppressed
+Messages :     6 reported,     0 suppressed
+
+
