@@ -1,41 +1,40 @@
 // **************************************************************************************************
-// Prova N.3 - Questão 1 e 2  [Arquivo de inclusão]
+// [Arquivo de inclusÃ£o]
 // Programa em C - Microcontroladores E1 & E2
 //
-// Curso   : Eng. Elétrica da IFBA
-// Disciplina: ENG421 - Microprocessadores & Microcontroladores
-// Autora  : Dirlene Napoleão                         Criação: 11/12/2021  Rev.: 14/12/2021
+// Disciplina: Microprocessadores & Microcontroladores
+// Autor   : Wender Francis                        CriaÃ§Ã£o: 11/12/2021  Rev.: 14/12/2021
 // Clock   : 4MHz                                     Arquivo: SerialLib.h
-// Programa: Funções de envio na comunicação serial
+// Programa: FunÃ§Ãµes de envio na comunicaÃ§Ã£o serial
 //
-// *** DESCRIÇÃO IMPORTANTE DA COMUNICAÇÃO SERIAL ***
+// *** DESCRIÃ‡ÃƒO IMPORTANTE DA COMUNICAÃ‡ÃƒO SERIAL ***
 //
-//  Este é um arquivo para declaração e armazenamento das funções de envio na Porta TX (Comunicação
-//  Serial), definições dos bits do Bloco A e do Bloco B e definições dos bits necessários para
-//  recepção dos dados na Porta RX da comunicação serial, no entanto, a recepção é executada na função 
-//  de interrupção e não numa função própria pra ela (Como o do envio serial). Existem 2 tipos de envio:
-//  de um dado único ou de uma String. O envio único é utilizado pelo Microcontrolador E1 para
-//  enviar os "pacotes" (Blocos) do dado da temperatura pela linha de transmissão. Cada pacote tem 8 bits
-//  , sendo 1 byte, a função Serial_Send envia apenas este byte. Já no envio de Strings é utilizado a
-//  função Serial_Write pelo microcontrolador E2 que vai apresentar textos no terminal virtual, neste caso 
-//  será o valor da temperatura em String (O valor em Celsius)
-//  Durante a linha de transmissão, existe uma interferência eletromagnética que altera os dados
-//  e esta interferência foi modelada utilizando um Pulso DC com amplitude de 5V, Largura de 3us e
-//  Período de 2ms. Este pulso é o que vai adicionar o ruído no meio da transmissão, mas para o ruído
-//  ser somado com o dado enviado, foi preciso criar o circuito de somador não-inversor com amplificador
-//  operacional usando LM741. Os detalhes dos 2 sinais (Pulso e Saída) podem ser vistos no osciloscópio e no
-//  voltímetro. No entanto, alguns testes foram feitos e concluí que o sinal aplicado (O Pulso) no somador
-//  do amplificador afeta no "Tempo de simulação" do Proteus e isto aconteceu no meu computador.
+//  Este Ã© um arquivo para declaraÃ§Ã£o e armazenamento das funÃ§Ãµes de envio na Porta TX (ComunicaÃ§Ã£o
+//  Serial), definiÃ§Ãµes dos bits do Bloco A e do Bloco B e definiÃ§Ãµes dos bits necessÃ¡rios para
+//  recepÃ§Ã£o dos dados na Porta RX da comunicaÃ§Ã£o serial, no entanto, a recepÃ§Ã£o Ã© executada na funÃ§Ã£o 
+//  de interrupÃ§Ã£o e nÃ£o numa funÃ§Ã£o prÃ³pria pra ela (Como o do envio serial). Existem 2 tipos de envio:
+//  de um dado Ãºnico ou de uma String. O envio Ãºnico Ã© utilizado pelo Microcontrolador E1 para
+//  enviar os "pacotes" (Blocos) do dado da temperatura pela linha de transmissÃ£o. Cada pacote tem 8 bits
+//  , sendo 1 byte, a funÃ§Ã£o Serial_Send envia apenas este byte. JÃ¡ no envio de Strings Ã© utilizado a
+//  funÃ§Ã£o Serial_Write pelo microcontrolador E2 que vai apresentar textos no terminal virtual, neste caso 
+//  serÃ¡ o valor da temperatura em String (O valor em Celsius)
+//  Durante a linha de transmissÃ£o, existe uma interferÃªncia eletromagnÃ©tica que altera os dados
+//  e esta interferÃªncia foi modelada utilizando um Pulso DC com amplitude de 5V, Largura de 3us e
+//  PerÃ­odo de 2ms. Este pulso Ã© o que vai adicionar o ruÃ­do no meio da transmissÃ£o, mas para o ruÃ­do
+//  ser somado com o dado enviado, foi preciso criar o circuito de somador nÃ£o-inversor com amplificador
+//  operacional usando LM741. Os detalhes dos 2 sinais (Pulso e SaÃ­da) podem ser vistos no osciloscÃ³pio e no
+//  voltÃ­metro. No entanto, alguns testes foram feitos e concluÃ­ que o sinal aplicado (O Pulso) no somador
+//  do amplificador afeta no "Tempo de simulaÃ§Ã£o" do Proteus e isto aconteceu no meu computador.
 //  Apenas este tipo de Pulso afeta no tempo, dando uma sobrecarga na CPU e perdendo a sincronia do tempo
-//  entre o código e a simulação, ou seja, 10 segundos configurados no TMR0 do código deram quase 2 minutos
-//  na simulação do Proteus. Então se caso acontecer este mesmo problema na simulação, observe os últimos 2
-//  dígitos do módulo de temporização do Proteus e espere eles chegarem a "10". Ou afim de testar com o tempo
-//  em sincronia (Caso acontecer o problema), só alterar o Pulso para uma fonte DC e problema resolvido.
-//  Apesar de que "parece" que os dados não são alterados durante a linha de transmissão, perceba que
-//  em alguns momentos bem específicos que o LED vermelho pode acender rapidamente, indicando erro na transmissão,
-//  mas isto acontece apenas em algumas voltagens do sensor LM53 e após tempos específicos, com uma certa,
-//  "imprevisibilidade". E olhando pelo Voltímetro de saída, veja claramente que o sinal dos pulsos e do TX são 
-//  somados. Logo esta alteração ocorre e o sistema de tratamento de erros é o suficiente pra conseguir recuperar
+//  entre o cÃ³digo e a simulaÃ§Ã£o, ou seja, 10 segundos configurados no TMR0 do cÃ³digo deram quase 2 minutos
+//  na simulaÃ§Ã£o do Proteus. EntÃ£o se caso acontecer este mesmo problema na simulaÃ§Ã£o, observe os Ãºltimos 2
+//  dÃ­gitos do mÃ³dulo de temporizaÃ§Ã£o do Proteus e espere eles chegarem a "10". Ou afim de testar com o tempo
+//  em sincronia (Caso acontecer o problema), sÃ³ alterar o Pulso para uma fonte DC e problema resolvido.
+//  Apesar de que "parece" que os dados nÃ£o sÃ£o alterados durante a linha de transmissÃ£o, perceba que
+//  em alguns momentos bem especÃ­ficos que o LED vermelho pode acender rapidamente, indicando erro na transmissÃ£o,
+//  mas isto acontece apenas em algumas voltagens do sensor LM53 e apÃ³s tempos especÃ­ficos, com uma certa,
+//  "imprevisibilidade". E olhando pelo VoltÃ­metro de saÃ­da, veja claramente que o sinal dos pulsos e do TX sÃ£o 
+//  somados. Logo esta alteraÃ§Ã£o ocorre e o sistema de tratamento de erros Ã© o suficiente pra conseguir recuperar
 //  o dado rapidamente.
 //
 // **************************************************************************************************
@@ -43,10 +42,10 @@
 #ifndef  __SERIALLIB_H__
 #define  __SERIALLIB_H__
 
-#define  HIGH      1                       // Nível lógico alto 1
-#define  LOW       0                       // Nível lógico baixo 0
+#define  HIGH      1                       // NÃ­vel lÃ³gico alto 1
+#define  LOW       0                       // NÃ­vel lÃ³gico baixo 0
 
-// Definições dos bits do dado enviado pelo E1
+// DefiniÃ§Ãµes dos bits do dado enviado pelo E1
 #define  B0   ((LM35_Value & 0x01) >> 0)   // Bit B0 do Valor da temperatura
 #define  B1   ((LM35_Value & 0x02) >> 1)   // Bit B1 do Valor da temperatura
 #define  B2   ((LM35_Value & 0x04) >> 2)   // Bit B2 do Valor da temperatura
@@ -56,7 +55,7 @@
 #define  B6   ((LM35_Value & 0x40) >> 6)   // Bit B6 do Valor da temperatura
 #define  B7   ((LM35_Value & 0x80) >> 7)   // Bit B7 do Valor da temperatura
 
-// Definições dos bits do dado recebido pelo E2
+// DefiniÃ§Ãµes dos bits do dado recebido pelo E2
 #define  D0   ((RCREG & 0x01) >> 0)   // Bit D0 do Valor da temperatura
 #define  D1   ((RCREG & 0x02) >> 1)   // Bit D1 do Valor da temperatura
 #define  D2   ((RCREG & 0x04) >> 2)   // Bit D2 do Valor da temperatura
@@ -67,46 +66,46 @@
 //#define  D7   ((RCREG & 0x80) >> 7) // Bit D7 IGNORADO
 
 
-// Declarações para ambos os microcontroladores de envio serial
-void Serial_Send(unsigned short);          // Declarando a função de envio serial
-void Serial_Write(char*);                  // Declarando a função de escrita serial
-void Serial_Wait();                        // Declarando a função de espera do envio serial
+// DeclaraÃ§Ãµes para ambos os microcontroladores de envio serial
+void Serial_Send(unsigned short);          // Declarando a funÃ§Ã£o de envio serial
+void Serial_Write(char*);                  // Declarando a funÃ§Ã£o de escrita serial
+void Serial_Wait();                        // Declarando a funÃ§Ã£o de espera do envio serial
 
-sbit SERIAL_SENDED at TRMT_bit;            // Este bit é setado quando todo o buffer TXREG foi esvaziado (Bits enviados)
+sbit SERIAL_SENDED at TRMT_bit;            // Este bit Ã© setado quando todo o buffer TXREG foi esvaziado (Bits enviados)
 
-// Declarações para o microcontrolador E1
+// DeclaraÃ§Ãµes para o microcontrolador E1
 #ifdef  __E1_MICRO__
-sbit TIMER_RESET   at    RD0_bit;          // Pino para resetar módulo de temporização do Proteus
-sbit E2_BLOC_A     at    RD1_bit;          // Pino que identifica a recepção do Bloco A em E2
-sbit E2_BLOC_B     at    RD2_bit;          // Pino que identifica a recepção do Bloco B em E2
-sbit TMR0_OVERFLOW at    TMR0IF_bit;       // Este bit é setado quando houver overflow do TMR0
-sbit EXTERN_INT0   at    INT0IF_bit;       // Este bit é setado quando RB0 está em HIGH e interrupção externa habilitada
+sbit TIMER_RESET   at    RD0_bit;          // Pino para resetar mÃ³dulo de temporizaÃ§Ã£o do Proteus
+sbit E2_BLOC_A     at    RD1_bit;          // Pino que identifica a recepÃ§Ã£o do Bloco A em E2
+sbit E2_BLOC_B     at    RD2_bit;          // Pino que identifica a recepÃ§Ã£o do Bloco B em E2
+sbit TMR0_OVERFLOW at    TMR0IF_bit;       // Este bit Ã© setado quando houver overflow do TMR0
+sbit EXTERN_INT0   at    INT0IF_bit;       // Este bit Ã© setado quando RB0 estÃ¡ em HIGH e interrupÃ§Ã£o externa habilitada
 #endif
 
-// Declarações para o microcontrolador E2
+// DeclaraÃ§Ãµes para o microcontrolador E2
 #ifdef  __E2_MICRO__
-sbit FRAMING_ERROR at FERR_bit;            // Bit que indica Erro de Framing na recepção serial (Pacotes imcompletos)
-sbit OVERRUN_ERROR at OERR_bit;            // Bit que indica Erro de Overrun na recepção serial (Sobreposição de dados)
-sbit RECEPTION     at CREN_bit;            // Bit para acionar/desacionar a recepção contínua
-sbit RECEPTION_INT at RCIF_bit;            // Bit que indica interrupção por recepção serial, ou buffer cheio
-sbit LED_GREEN     at RB6_bit;             // Bit relacionado ao LED verde    (Indicando término/sucesso)
-sbit LED_YELLOW    at RB5_bit;             // Bit relacionado ao LED amarelo  (Indicando recepção do Bloco A)
-sbit LED_RED       at RB4_bit;             // Bit relacionado ao LED vermelho (Indicando alteração dos dados)
-sbit SIGN_E1       at RB7_bit;             // Bit relacionado a sinalização para E1 reenviar o Bloco A
+sbit FRAMING_ERROR at FERR_bit;            // Bit que indica Erro de Framing na recepÃ§Ã£o serial (Pacotes imcompletos)
+sbit OVERRUN_ERROR at OERR_bit;            // Bit que indica Erro de Overrun na recepÃ§Ã£o serial (SobreposiÃ§Ã£o de dados)
+sbit RECEPTION     at CREN_bit;            // Bit para acionar/desacionar a recepÃ§Ã£o contÃ­nua
+sbit RECEPTION_INT at RCIF_bit;            // Bit que indica interrupÃ§Ã£o por recepÃ§Ã£o serial, ou buffer cheio
+sbit LED_GREEN     at RB6_bit;             // Bit relacionado ao LED verde    (Indicando tÃ©rmino/sucesso)
+sbit LED_YELLOW    at RB5_bit;             // Bit relacionado ao LED amarelo  (Indicando recepÃ§Ã£o do Bloco A)
+sbit LED_RED       at RB4_bit;             // Bit relacionado ao LED vermelho (Indicando alteraÃ§Ã£o dos dados)
+sbit SIGN_E1       at RB7_bit;             // Bit relacionado a sinalizaÃ§Ã£o para E1 reenviar o Bloco A
 sbit E1_BLOC_A     at RB3_bit;             // Bit que sinaliza E1 que bloco A foi recebido e resolvido
 sbit E1_BLOC_B     at RB0_bit;             // Bit que sinaliza E1 que bloco B foi recebido e resolvido
 #endif
 
 // --------------------------------------------------------------------------------------------------
-// --- Funções de comunicação serial ----------------------------------------------------------------
+// --- FunÃ§Ãµes de comunicaÃ§Ã£o serial ----------------------------------------------------------------
 
-// Envia para porta serial um dado único de 8 bits
+// Envia para porta serial um dado Ãºnico de 8 bits
 void Serial_Send(unsigned short val){
      TXREG = val;
      Serial_Wait();
 }
 
-// Envia para porta serial vários dados de 8 bits como "Strings"
+// Envia para porta serial vÃ¡rios dados de 8 bits como "Strings"
 void Serial_Write(char *string){
     int i;
     for(i = 0; i < strlen(string); i++){
@@ -115,12 +114,12 @@ void Serial_Write(char *string){
     }
 }
 
-// Função de espera do envio serial
+// FunÃ§Ã£o de espera do envio serial
 void Serial_Wait(){
     while(!SERIAL_SENDED);
 }
 
 // --------------------------------------------------------------------------------------------------
-// --- Fim das Funções de comunicação serial --------------------------------------------------------
+// --- Fim das FunÃ§Ãµes de comunicaÃ§Ã£o serial --------------------------------------------------------
 
 #endif
